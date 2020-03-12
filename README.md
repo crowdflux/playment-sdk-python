@@ -30,7 +30,7 @@ project = playment.Project(project_id=PROJECT_ID)
 ```
 
 
-###Get Project Summary
+#### Get Project Summary
 ```
 """
 Get Project Summary
@@ -42,7 +42,7 @@ except playment.PlaymentException as e:
 ```
 
 
-###Get Project's Batches Summary
+#### Get Project's Batches Summary
 ```
 """
 Get Project's Batches Summary: This will provide all the batches and their summary
@@ -54,7 +54,7 @@ except playment.PlaymentException as e:
 ```
 
 
-###Get Batch Summary
+#### Get Batch Summary
 ```
 """
 Get Batch Summary: This will provide you summary of batch with its jobs and viewer links.
@@ -68,7 +68,7 @@ except playment.PlaymentException as e:
 ```
 
 
-###Creating a Batch
+#### Creating a Batch
 ```
 """
 Creating new batch: This will return a batch object with batch_id
@@ -84,7 +84,7 @@ except playment.PlaymentException as e:
 ```
 
 
-###Creating a Single-Image Based Job 
+#### Creating a Single-Image Based Job 
 ```
 """
 Define a batch
@@ -124,7 +124,7 @@ except playment.PlaymentException as e:
 ```
 
 
-###Creating a Sensor Based Job with Multiple Images/PCDs
+#### Creating a Sensor Based Job with Multiple Images/PCDs with 
 ```
 """
 Define a batch
