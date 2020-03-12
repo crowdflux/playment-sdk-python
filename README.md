@@ -124,7 +124,7 @@ except playment.PlaymentException as e:
 ```
 
 
-#### Creating a Sensor Based Job with Multiple Images/PCDs with 
+#### Creating a Sensor Based Job with Multiple Images/PCDs with sensors limiting upto 2.
 ```
 """
 Define a batch
