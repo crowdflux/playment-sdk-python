@@ -1,4 +1,3 @@
-from playment.data import Data
 from playment.batch_handler import Batch
 from playment.exception import PlaymentException
 from playment.client_handler import Client
@@ -8,3 +7,8 @@ from playment.datatype_handler import SensorFusionData
 from playment.datatype_handler import ImageData
 from playment.project_handler import Project
 from playment.job import Job
+from playment.intrinsics import Intrinsics
+from playment.frame import Frame
+from playment.sensor_pose import SensorPose
+from playment.sensor_pose import Heading
+from playment.sensor_pose import Position
