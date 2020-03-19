@@ -30,7 +30,10 @@ def retry(url: str, headers: dict, data=None, method: str = "POST", limit: int =
 
 
 class Requests:
-    def post(url: str, headers: dict = None, data=None, limit: int = 3):
+    def post(url: str, headers: dict = None, data=None, limit: int = 3, headers=):
+        globalHeader.append(headers)
+
+        globalconverter.convertojson()
         response = requests.post(url, headers=headers, json=data)
         if response.status_code >= 500 or response.status_code in [408, 429, 443, 444]:
             response = retry(url, headers, data, response.request.method, limit)

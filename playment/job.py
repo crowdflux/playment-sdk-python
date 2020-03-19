@@ -10,6 +10,7 @@ def to_dict(obj):
     )
 
 
+# todo: batchId to be used
 class Job:
     def __init__(self, reference_id: str, tag: str, data: Data,
                  priority_weight: int = 5, batch: Batch = None):

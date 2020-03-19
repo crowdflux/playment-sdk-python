@@ -16,12 +16,7 @@ class Client:
         assert batch.description is not None
         assert project_id is not None
         url = apis['batch_creation'].format(project_id)
-        response = Requests.post(url,
-                                 headers={
-                                            'x-playment-key': self.client_key
-                                         },
-                                 data=batch.__dict__
-                                 )
+        response = Requests.post(url, data=batch)
 
         batch.batch_id = response[1]['batch_id']
         return batch
