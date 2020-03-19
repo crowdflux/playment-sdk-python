@@ -1,10 +1,10 @@
-from playment.datatype_handler import SensorFusionData
-from playment.datatype_handler import ImageData
+# from playment.datatype_handler import SensorFusionData
+# from playment.datatype_handler import ImageData
+import abc
 
 
-class Data:
-    def __init__(self, data: SensorFusionData or ImageData):
-        if type(data) == SensorFusionData:
-            self.sensor_data = data
-        else:
-            self.image_url = data.image_url
+class Data(metaclass=abc.ABCMeta):
+    @classmethod
+    def __subclasshook__(cls,subclass):
+        return (hasattr(subclass, 'valid') and
+                callable(subclass.load_data_source))

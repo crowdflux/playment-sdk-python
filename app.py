@@ -143,8 +143,9 @@ for i in range(len(lidar_frames)):
     # Adding the frame in sensor data
     sensor_data.add_frame(frame)
 
+image_data = playment.ImageData(image_url="http://dfnq1fss3rnqc.cloudfront.net/play/original/b28565f1-5c9a-431a-94de-14d6f2c2f04e")
 
-data = playment.Data(sensor_data)
+
 
 """
 Defining a job with sensor data
@@ -156,8 +157,8 @@ Defining a job with sensor data
 :param priority_weight(optional): Range of priority weight is [1,10] and integers only. 10 is the highest priority.
                                   Default is 5.
 """
-job = playment.Job(reference_id="30", tag="sensor_fusion", data=data)
-
+job = playment.Job(reference_id="30", tag="sensor_fusion", data=image_data)
+job.data.valid()
 print(json.dumps(job.as_dict(job=job)))
 
 

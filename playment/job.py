@@ -1,4 +1,5 @@
 from playment.data import Data
+from playment.datatype_handler import SensorFusionData, ImageData
 from playment.batch_handler import Batch
 import json
 

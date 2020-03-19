@@ -1,4 +1,4 @@
-import requests.models
+import requests
 
 
 class Responses:
