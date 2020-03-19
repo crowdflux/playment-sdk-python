@@ -9,6 +9,7 @@ class Client:
     def __init__(self, client_key: str):
         self.client_key = client_key
 
+    #todo: remove Project -> just project_id
     def create_batch(self, batch: Batch, project: Project):
         assert batch.name is not None
         assert batch.label is not None
@@ -25,15 +26,17 @@ class Client:
         batch.batch_id = response[1]['batch_id']
         return batch
 
-    def create_job(self, data: Job, project: Project):
+    # todo: remove Project -> just project_id
+    def create_job(self, job: Job, project: Project):
         assert project.project_id is not None
         url = apis['job_creation'].format(project.project_id)
+        job.data.valid()
         response = Requests.post(
             url,
             headers={
                         'x-playment-key': self.client_key
                     },
-            data=data.__dict__
+            data=job.__dict__
                                 )
         return response
 

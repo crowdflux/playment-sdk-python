@@ -1,4 +1,4 @@
-from playment.sensor import Sensor
+from playment.sensor.sensor import Sensor
 from typing import List
 
 

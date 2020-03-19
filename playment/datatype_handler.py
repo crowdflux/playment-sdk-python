@@ -1,4 +1,4 @@
-from playment.sensor_meta import SensorMeta
+from playment.sensor.sensor_meta import SensorMeta
 from playment.frame import Frame
 from typing import List
 

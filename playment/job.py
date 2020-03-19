@@ -14,6 +14,6 @@ class Job:
                  priority_weight: int = 5, batch: Batch = None):
         self.reference_id = reference_id
         self.tag = tag
-        self.data = to_dict(data) if type(data) == ImageData else {"sensor_data": to_dict(data)}
+        self.data = data
         self.batch_id = batch.batch_id if batch is not None else batch
         self.priority_weight = priority_weight
