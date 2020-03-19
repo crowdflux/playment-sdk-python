@@ -1,4 +1,4 @@
-from playment.intrinsics import Intrinsics
+from playment.sensor.intrinsics import Intrinsics
 
 
 class SensorMeta:

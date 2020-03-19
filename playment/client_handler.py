@@ -10,12 +10,12 @@ class Client:
         self.client_key = client_key
 
     #todo: remove Project -> just project_id
-    def create_batch(self, batch: Batch, project: Project):
+    def create_batch(self, batch: Batch, project_id: str):
         assert batch.name is not None
         assert batch.label is not None
         assert batch.description is not None
-        assert project.project_id is not None
-        url = apis['batch_creation'].format(project.project_id)
+        assert project_id is not None
+        url = apis['batch_creation'].format(project_id)
         response = Requests.post(url,
                                  headers={
                                             'x-playment-key': self.client_key
@@ -27,22 +27,22 @@ class Client:
         return batch
 
     # todo: remove Project -> just project_id
-    def create_job(self, job: Job, project: Project):
-        assert project.project_id is not None
-        url = apis['job_creation'].format(project.project_id)
-        job.data.valid()
+    def create_job(self, job: Job, project_id: str):
+        assert project_id is not None
+        url = apis['job_creation'].format(project_id)
+        # ToDo: job.data.valid()
         response = Requests.post(
             url,
             headers={
                         'x-playment-key': self.client_key
                     },
-            data=job.__dict__
+            data=job.as_dict(job=job)
                                 )
         return response
 
-    def get_project_summary(self, project: Project):
-        assert project.project_id is not None
-        url = apis['project_summary'].format(project.project_id)
+    def get_project_summary(self, project_id: str):
+        assert project_id is not None
+        url = apis['project_summary'].format(project_id)
         response = Requests.get(
             url=url,
             headers={
@@ -51,9 +51,9 @@ class Client:
         )
         return response
 
-    def get_project_batches_summary(self, project: Project):
-        assert project.project_id is not None
-        url = apis['project_batch_details'].format(project.project_id)
+    def get_project_batches_summary(self, project_id: str):
+        assert project_id is not None
+        url = apis['project_batch_details'].format(project_id)
         response = Requests.get(
             url=url,
             headers={
@@ -62,10 +62,10 @@ class Client:
         )
         return response
 
-    def get_batch_summary(self, batch: Batch, project: Project):
+    def get_batch_summary(self, batch: Batch, project_id: str):
         assert batch.batch_id is not None
-        assert project.project_id is not None
-        url = apis['batch_summary'].format(project.project_id, batch.batch_id)
+        assert project_id is not None
+        url = apis['batch_summary'].format(project_id, batch.batch_id)
         response = Requests.get(
             url=url,
             headers={
@@ -74,9 +74,10 @@ class Client:
         )
         return response
 
-    def get_job_data(self, project: Project, job_id: str):
-        assert project.project_id is not None
-        url = apis['job_result'].format(project.project_id, job_id)
+    def get_job_data(self, project_id: str, job_id: str):
+        assert project_id is not None
+        assert job_id is not None
+        url = apis['job_result'].format(project_id, job_id)
         response = Requests.get(
             url=url,
             headers={

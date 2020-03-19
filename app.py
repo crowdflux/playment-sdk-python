@@ -1,4 +1,5 @@
 import playment
+import json
 
 """
 Defining sensor_poses for cameras w.r.t lidar
@@ -142,6 +143,9 @@ for i in range(len(lidar_frames)):
     # Adding the frame in sensor data
     sensor_data.add_frame(frame)
 
+
+data = playment.Data(sensor_data)
+
 """
 Defining a job with sensor data
 :param reference_id: This will be unique for every job in a given project.
@@ -152,6 +156,8 @@ Defining a job with sensor data
 :param priority_weight(optional): Range of priority weight is [1,10] and integers only. 10 is the highest priority.
                                   Default is 5.
 """
-job = playment.Job(reference_id="30", tag="sensor_fusion", data=sensor_data)
+job = playment.Job(reference_id="30", tag="sensor_fusion", data=data)
+
+print(json.dumps(job.as_dict(job=job)))
 
 
