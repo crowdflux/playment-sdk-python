@@ -1,6 +1,7 @@
 import requests
-from playment.response import Responses
+from playment.response import Responses, ToJson
 from playment.exception import PlaymentException
+import json
 
 
 def retry(url: str, headers: dict, data=None, method: str = "POST", limit: int = 3, count: int = 1):
@@ -30,17 +31,20 @@ def retry(url: str, headers: dict, data=None, method: str = "POST", limit: int =
 
 
 class Requests:
-    def post(url: str, headers: dict = None, data=None, limit: int = 3, headers=):
-        globalHeader.append(headers)
-
-        globalconverter.convertojson()
+    def post(url: str, headers: dict = None, data=None, limit: int = 3):
+        # globalHeader.append(headers)
+        #
+        # globalconverter.convertojson()
         response = requests.post(url, headers=headers, json=data)
+        json_response = ToJson.response_to_dict(response)
+        print(json_response)
         if response.status_code >= 500 or response.status_code in [408, 429, 443, 444]:
             response = retry(url, headers, data, response.request.method, limit)
         elif 400 <= response.status_code < 500:
             raise PlaymentException(response)
         elif response.status_code == 200 and response.json()['success'] is False:
             raise PlaymentException(response)
+
         return Responses.response(response)
 
     def get(url: str, headers: dict, limit: int = 3):
