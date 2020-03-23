@@ -2,6 +2,7 @@ from playment.job import Job
 from playment.config import apis
 from playment.requests import Requests
 from playment.batch_handler import Batch
+from playment.requests import Head
 import json
 
 
@@ -9,6 +10,7 @@ class Client:
     def __init__(self, client_key: str):
         assert client_key is not None
         self.client_key = client_key
+        Head.Value.client_key = self.client_key
 
     def create_batch(self, batch: Batch, project_id: str):
         assert batch.name is not None
@@ -31,9 +33,9 @@ class Client:
         print(json.dumps(data))
         response = Requests.post(
             url,
-            headers={
-                        'x-client-key': self.client_key
-                    },
+            # headers={
+            #             'x-client-key': self.client_key
+            #         },
             data=data
                                 )
 
