@@ -1,12 +1,10 @@
 from playment.data import Data
-from playment.batch_handler import Batch
 
 
-# todo: batchId to be used
 class Job:
-    def __init__(self, reference_id: str, tag: str, data: Data, _id: str = None,
+    def __init__(self, reference_id: str, tag: str, data: Data, id: str = None,
                  priority_weight: int = 5, batch_id: str = None):
-        self._id = _id
+        self.id = id
         self.reference_id = reference_id
         self.tag = tag
         self.data = data

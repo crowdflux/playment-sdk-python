@@ -159,8 +159,16 @@ Defining a job with sensor data
 """
 job = playment.Job(reference_id="46", tag="asad", data=image_data)
 
-client = playment.Client("HRGudEwp0b50Vk2Ao87elc5n6mRnLNe+LXW2PWks6Rg")
-project_summary = client.get_project_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
+# client = playment.Client("HRGudEwp0b50Vk2Ao87elc5n6mRnLNe+LXW2PWks6Rg")
+client = playment.Client("q45mDnKEcGLctPPRibbPp6/91IrVKddenqTK8rAGT1Q")
+try:
+    res = client.get_job_data(project_id="00d13bf0-b1c5-41a1-9a86-36677cb9f8d0", job_id="48284fcd-c6f9-4361-8f7d-feac38b60b4b")
+except playment.exception.PlaymentException as e:
+    print(e.__dict__)
+# print(client.get_project_batches_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723"))
+# print(client.get_batch_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723",
+#                                batch_id="17492663-e795-418d-970d-1f293693a5f0"))
+# project_summary = client.get_project_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
 # try:
 #     resp = client.create_job(job=job, project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
 #     print(resp.__dict__)

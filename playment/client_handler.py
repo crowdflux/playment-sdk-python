@@ -3,10 +3,12 @@ from playment.config import types
 from playment.requests import Requests
 from playment.batch_handler import Batch
 from playment.data import Data
-from playment.response import PlaymentResponse
 from playment.utilities import to_dict
-from playment.utilities import ObjDict
-from playment.projects import ProjectSummary
+from playment.utilities import JSON2Obj
+from playment.projects import ProjectSummary, ProjectBatchSummary
+from playment.batches import BatchSummary
+from playment.jobs import JobResult
+import json
 
 
 class Client:
@@ -24,7 +26,7 @@ class Client:
         batch = Batch(name=name, label=label, description=description)
         data = to_dict(obj=batch)
         response = self.requester.post(url=url, data=data)
-        batch._id = response.data.batch_id
+        batch.id = response.data.batch_id
         return batch
 
     def create_job(self, reference_id: str, tag: str, data: Data, project_id: str,
@@ -37,8 +39,7 @@ class Client:
             url=url,
             data=data
         )
-        job._id = response.data.job_id
-
+        job.id = response.data.job_id
         return job
 
     def get_project_summary(self, project_id: str) -> ProjectSummary:
@@ -47,12 +48,7 @@ class Client:
         response = self.requester.get(
             url=url
         )
-        print(response.data)
-        response = ObjDict(response.data)
-        print(issubclass(type(response), ProjectSummary))
-        print(issubclass(ProjectSummary, type(response)))
-        # # print(response.)
-        # print(type(response))
+        response = JSON2Obj(ProjectSummary(), json.dumps(response.data)).json2obj()
         return response
 
     def get_project_batches_summary(self, project_id: str):
@@ -61,22 +57,25 @@ class Client:
         response = self.requester.get(
             url=url
         )
+        response = JSON2Obj(ProjectBatchSummary(), json.dumps(response.data)).json2obj()
         return response
 
-    def get_batch_summary(self, batch: Batch, project_id: str):
-        assert batch.batch_id is not None
+    def get_batch_summary(self, batch_id: str, project_id: str):
+        assert batch_id is not None
         assert project_id is not None
-        url = types.batch_summary.format(project_id, batch._id)
+        url = types.batch_summary.format(project_id, batch_id)
         response = self.requester.get(
             url=url
         )
+        response = JSON2Obj(BatchSummary(), json.dumps(response.data)).json2obj()
         return response
 
-    def get_job_data(self, project_id: str, job_id: str) -> Job:
+    def get_job_data(self, project_id: str, job_id: str) -> JobResult:
         assert project_id is not None
         assert job_id is not None
         url = types.job_result.format(project_id, job_id)
         response = self.requester.get(
             url=url
         )
+        response = JSON2Obj(JobResult(), json.dumps(response.data)).json2obj()
         return response
