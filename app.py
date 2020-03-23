@@ -161,6 +161,7 @@ job = playment.Job(reference_id="40", tag="asad", data=image_data)
 print(json.dumps(job.as_dict(job=job)))
 
 client = playment.Client("HRGudEwp0b50Vk2Ao87elc5n6mRnLNe+LXW2PWks6Rg")
-client.create_job(job=job, project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
+resp = client.create_job(job=job, project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
+print(resp.__dict__)
 
 

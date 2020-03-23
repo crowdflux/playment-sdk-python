@@ -2,7 +2,6 @@ from playment.job import Job
 from playment.config import apis
 from playment.requests import Requests
 from playment.batch_handler import Batch
-from playment.requests import Head
 import json
 
 

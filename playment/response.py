@@ -18,8 +18,8 @@ def object_to_json(obj):
 
 def response(res: dict):
     success = res['success']
-    data = res['data'] if 'error' in res else None
-    error = res['error'] if 'data' in res else None
+    data = res['data'] if 'data' in res else None
+    error = res['error'] if 'error' in res else None
     return success, data, error
 
 
@@ -27,11 +27,10 @@ def response_to_dict(res):
     return response(res.json())
 
 
-# class PlaymentResponse:
-#     def __init__(self, res: dict):
-#         self.success = res['success']
-#         self.error = res['error']
-#         self.data = res['data']
+class PlaymentResponse:
+    def __init__(self, res):
+        self.success, self.data, self.error = response_to_dict(res)
+
 
     # def response(res: requests.models.Response):
     #     return res.json()['success'] if "success" in res.json() else None,\

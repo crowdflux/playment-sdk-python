@@ -14,10 +14,14 @@ class ExceptionCodes:
     GE_0002 = "Parameter missing"
     unauthorized_request = "playment-key is invalid. Please contact the administrator"
     resource_error = "project_id not found"
-    BATCH_CREATION = """Add: batch names in a project are unique, pq: duplicate key value violates unique constraint 'batches_project_id_name_unique'"""
+    BATCH_CREATION = """Add: batch names in a project are unique,
+                        pq: duplicate key value violates unique constraint 'batches_project_id_name_unique'"""
 
 
 class PlaymentException(Exception):
-    def __init__(self, res: requests.models.Response):
-        self.status_code = res.json()['error']['code']
-        self.message = getattr(ExceptionCodes, self.status_code) if hasattr(ExceptionCodes, self.status_code) else res.json()['error']['message']
+    def __init__(self, res):
+        self.status_code = res.error['code']
+        self.message = getattr(ExceptionCodes, self.status_code) if hasattr(ExceptionCodes, self.status_code)\
+                                                                    else res.error['message']
+        self.success = res.success
+        self.data = res.data
