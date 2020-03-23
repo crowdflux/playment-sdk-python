@@ -1,5 +1,5 @@
 import requests
-from playment.response import PlaymentResponse, response_to_dict
+from playment.response import response_to_dict, json2obj
 from playment.exception import PlaymentException
 import json
 
@@ -39,28 +39,31 @@ def retry(url: str, headers: dict, data=None, method: str = "POST", limit: int =
 
 
 class Requests:
-    headers = dict(zip([Head.Key.client_key], [Head.Value.client_key]))
-    def post(url: str, headers: dict = headers, data=None, limit: int = 3):
+    def __init__(self, headers: str):
+        Head.Value.playment_key = headers
+        self.headers = dict(zip([Head.Key.playment_key], [Head.Value.playment_key]))
 
-        # globalHeader.append(headers)
-        #
-        # globalconverter.convertojson()
-        response = requests.post(url, headers=headers, json=data)
+    def post(self, url: str, data=None, limit: int = 3):
+        response = requests.post(url, headers=self.headers, json=data)
+        resp = json2obj(json.dumps(response.json()))
+        print(type(resp))
+        print(resp)
+        print(resp.error.code)
         if response.status_code >= 500 or response.status_code in [408, 429, 443, 444]:
-            response = retry(url, headers, data, response.request.method, limit)
+            response = retry(url, self.headers, data, response.request.method, limit)
         elif 400 <= response.status_code < 500:
             raise PlaymentException(response)
         elif response.status_code == 200 and response.json()['success'] is False:
             raise PlaymentException(response)
-        response = PlaymentResponse(response_to_dict(res=response))
+        # response = PlaymentResponse(response_to_dict(res=response))
         return response
 
-    def get(url: str, headers: dict = headers, limit: int = 3):
-        response = requests.get(url, headers=headers)
+    def get(self, url: str, limit: int = 3):
+        response = requests.get(url, headers=self.headers)
         if response.status_code >= 500 or response.status_code in [408, 429, 443, 444]:
-            response = retry(url, headers=headers, method=response.request.method, limit=limit)
+            response = retry(url, headers=self.headers, method=response.request.method, limit=limit)
         elif 400 <= response.status_code < 500:
             raise PlaymentException(response)
         elif response.status_code == 200 and response.json()['success'] is False:
             raise PlaymentException(response)
-        return Responses.response(response)
+        return PlaymentResponse(response_to_dict(res=response))

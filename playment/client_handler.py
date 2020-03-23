@@ -10,7 +10,8 @@ class Client:
     def __init__(self, client_key: str):
         assert client_key is not None
         self.client_key = client_key
-        Head.Value.client_key = self.client_key
+        self.requester = Requests(client_key)
+        # Head.Value.client_key = self.client_key
 
     def create_batch(self, batch: Batch, project_id: str):
         assert batch.name is not None
@@ -31,13 +32,17 @@ class Client:
         print(url)
 
         print(json.dumps(data))
-        response = Requests.post(
-            url,
+        response = self.requester.post(
+            url=url,
+            data=data
+        )
+        # response = Requests.post(
+        #     url,
             # headers={
             #             'x-client-key': self.client_key
             #         },
-            data=data
-                                )
+            # data=data
+            #                     )
 
         return response
 

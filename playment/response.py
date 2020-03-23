@@ -1,4 +1,13 @@
 import json
+from collections import namedtuple
+
+
+def _json_object_hook(d):
+    return namedtuple('PlaymentResponse', d.keys())(*d.values())
+
+
+def json2obj(data):
+    return json.loads(data, object_hook=_json_object_hook)
 
 
 def object_to_json(obj):
@@ -18,11 +27,11 @@ def response_to_dict(res):
     return response(res.json())
 
 
-class PlaymentResponse:
-    def __init__(self, res: dict):
-        self.success = res['success']
-        self.error = res['error']
-        self.data = res['data']
+# class PlaymentResponse:
+#     def __init__(self, res: dict):
+#         self.success = res['success']
+#         self.error = res['error']
+#         self.data = res['data']
 
     # def response(res: requests.models.Response):
     #     return res.json()['success'] if "success" in res.json() else None,\
