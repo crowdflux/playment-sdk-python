@@ -157,15 +157,15 @@ Defining a job with sensor data
 :param priority_weight(optional): Range of priority weight is [1,10] and integers only. 10 is the highest priority.
                                   Default is 5.
 """
-job = playment.Job(reference_id="43", tag="asad", data=image_data)
-print(json.dumps(job.as_dict(job=job)))
+job = playment.Job(reference_id="46", tag="asad", data=image_data)
 
 client = playment.Client("HRGudEwp0b50Vk2Ao87elc5n6mRnLNe+LXW2PWks6Rg")
-try:
-    resp = client.create_job(job=job, project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
-    print(resp.__dict__)
-
-except playment.exception.PlaymentException as e:
-    print(e.__dict__)
+project_summary = client.get_project_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
+# try:
+#     resp = client.create_job(job=job, project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
+#     print(resp.__dict__)
+#
+# except playment.exception.PlaymentException as e:
+#     print(e.__dict__)
 
 

@@ -49,6 +49,7 @@ class Requests:
             headers = self.headers
         else:
             headers.update(self.headers)
+        data = data.__dict__
         res = requests.post(url, headers=headers, json=data)
         if is_retryable(res.status_code):
             res = retry(url=url, headers=headers, data=data, method=res.request.method, limit=limit)

@@ -20,8 +20,8 @@ class ExceptionCodes:
 
 class PlaymentException(Exception):
     def __init__(self, res: PlaymentResponse):
-        self.error_code = res.error['code']
-        self.message = getattr(ExceptionCodes, self.error_code) if hasattr(ExceptionCodes, self.error_code)\
+
+        self.code = res.error['code']
+        self.message = getattr(ExceptionCodes, self.code) if hasattr(ExceptionCodes, self.code)\
                                                                     else res.error['message']
-        self.success = res.success
         self.data = res.data
