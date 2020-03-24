@@ -145,37 +145,6 @@ for i in range(len(lidar_frames)):
     sensor_fusion_data.add_frame(frame)
 
 
-image_data = playment.ImageData(image_url="http://dfnq1fss3rnqc.cloudfront.net/play/original/b28565f1-5c9a-431a-94de-14d6f2c2f04e")
-
-"""
-Get Job Data
-"""
-try:
-    res = client.get_job_data(project_id="00d13bf0-b1c5-41a1-9a86-36677cb9f8d0",
-                              job_id="48284fcd-c6f9-4361-8f7d-feac38b60b4b")
-except playment.exception.PlaymentException as e:
-    print(e.code, e.message, e.data)
-
-"""
-Get project's batches summary
-"""
-print(client.get_project_batches_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723"))
-
-"""
-Get batch summary
-"""
-print(client.get_batch_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723",
-                               batch_id="17492663-e795-418d-970d-1f293693a5f0"))
-
-"""
-Get project summary
-"""
-try:
-    project_summary = client.get_project_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
-except playment.PlaymentException as e:
-    print(e.code, e.message, e.data)
-
-
 """
 Sensor Data job creation
 """
@@ -186,5 +155,3 @@ try:
 
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)
-
-

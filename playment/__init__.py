@@ -1,4 +1,4 @@
-from playment.batches.batch_handler import Batch
+from playment.batches import Batch
 from playment.exception import PlaymentException
 from playment.client_handler import Client
 from playment.sensors import SensorMeta
