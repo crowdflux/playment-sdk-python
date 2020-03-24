@@ -25,25 +25,22 @@ class Decodable(metaclass=abc.ABCMeta):
     @classmethod
     def __subclasscheck__(cls, subclass):
         return (
-            hasattr(subclass, '_json_object_hook') and
-            callable(subclass._json_object_hook)
+                hasattr(subclass, '_json_object_hook') and
+                callable(subclass._json_object_hook)
         )
+
+    @abc.abstractmethod
+    def json_object_hook(self, d):
+        raise NotImplementedError
 
 
 class JSON2Obj:
-    def __init__(self, obj, data):
+    def __init__(self, obj: Decodable, data):
         self.obj = obj
         self.data = data
 
-    def _json_object_hook(self, d):
-        # if self.obj == "ProjectSummary":
-        #     return ProjectSummary(
-        #         name=d['name'],
-        #     )
-        return namedtuple(self.obj, d.keys())(*d.values())
-
     def json2obj(self):
-        return json.loads(self.data, object_hook=self.obj._json_object_hook)
+        return json.loads(self.data, object_hook=self.obj.json_object_hook)
 
 
 def to_dict(obj):

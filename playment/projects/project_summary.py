@@ -1,7 +1,9 @@
 from collections import namedtuple
 
+from playment.utilities import Decodable
 
-class ProjectSummary:
+
+class ProjectSummary(Decodable):
     def __init__(self, name: str = None, base: str = None, total_batches: int = None, completed_batches: int = None,
                  total_jobs: int = None, completed_jobs: int = None,
                  total_frames: int = None, completed_frames: int = None, annotations: int = None):
@@ -15,5 +17,5 @@ class ProjectSummary:
         self.completed_frames = completed_frames
         self.annotations = annotations
 
-    def _json_object_hook(self, d):
+    def json_object_hook(self, d):
         return namedtuple('ProjectSummary', d.keys())(*d.values())
