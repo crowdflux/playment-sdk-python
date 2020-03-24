@@ -182,7 +182,7 @@ Sensor Data job creation
 sensor_data = playment.sensors.SensorData(sensor_fusion_data)
 try:
     job = client.create_job(reference_id="54", tag='sensor_fusion',
-                             data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")
+                            data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")
 
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)
