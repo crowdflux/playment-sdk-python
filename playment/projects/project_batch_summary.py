@@ -1,17 +1,18 @@
 from collections import namedtuple
+from playment.utilities import Decodable
 
 
 def _json_object_hook(d):
     return namedtuple('batch_details', d.keys())(*d.values())
 
 
-class ProjectBatchSummary:
+class ProjectBatchSummary(Decodable):
     def __init__(self, name: str = None, base: str = None, batches: list = None):
         self.name = name
         self.base = base
         self.batches = batches
 
-    def _json_object_hook(self, d):
+    def json_object_hook(self, d):
         if 'batches' in d:
             jobs = []
             for j in d['batches']:

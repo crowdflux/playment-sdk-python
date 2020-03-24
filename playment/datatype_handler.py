@@ -1,5 +1,6 @@
 from playment.sensors.sensor_meta import SensorMeta
 from playment.frame import Frame
+from playment.data import Data
 from typing import List
 
 
@@ -15,7 +16,7 @@ class SensorFusionData:
         self.frames.append(frame)
 
 
-class ImageData:
+class ImageData(Data):
     def __init__(self, image_url: str):
         self.image_url = image_url
 

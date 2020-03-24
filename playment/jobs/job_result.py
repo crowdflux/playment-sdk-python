@@ -1,7 +1,8 @@
 from collections import namedtuple
+from playment.utilities import Decodable
 
 
-class JobResult:
+class JobResult(Decodable):
     def __init__(self, job_id: str = None, batch_id: str = None, project_id: str = None, reference_id: str = None,
                  status: str = None, tag: str = None, priority_weight: int = None, result: str = None):
         self.job_id = job_id
@@ -13,5 +14,5 @@ class JobResult:
         self.priority_weight = priority_weight
         self.result = result
 
-    def _json_object_hook(self, d):
+    def json_object_hook(self, d):
         return namedtuple('JobResult', d.keys())(*d.values())

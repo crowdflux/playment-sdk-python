@@ -1,7 +1,8 @@
+from playment.data import Data
 from playment.datatype_handler import SensorFusionData
 
 
-class SensorData:
+class SensorData(Data):
     def __init__(self, sensor_fusion_data: SensorFusionData = SensorFusionData()):
         self.sensor_data = sensor_fusion_data
 

@@ -25,8 +25,8 @@ class Decodable(metaclass=abc.ABCMeta):
     @classmethod
     def __subclasscheck__(cls, subclass):
         return (
-                hasattr(subclass, '_json_object_hook') and
-                callable(subclass._json_object_hook)
+                hasattr(subclass, 'json_object_hook') and
+                callable(subclass.json_object_hook)
         )
 
     @abc.abstractmethod
