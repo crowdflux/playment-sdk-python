@@ -1,5 +1,6 @@
 import playment
-import json
+
+client = playment.Client("HRGudEwp0b50Vk2Ao87elc5n6mRnLNe+LXW2PWks6Rg")
 
 """
 Defining sensor_poses for cameras w.r.t lidar
@@ -38,9 +39,9 @@ camera_2_frames = [
 ]
 
 """
-Initialize sensor_data
+Initialize sensor_fusion_data
 """
-sensor_data = playment.SensorFusionData()
+sensor_fusion_data = playment.SensorFusionData()
 
 """
 Defining Sensor
@@ -66,7 +67,7 @@ Defining Sensor
                                 large as the downscaled image)
 """
 lidar_sensor_meta = playment.SensorMeta(_id="lidar", name="lidar", primary_view=True, modality="lidar")
-sensor_data.add_sensor_meta(lidar_sensor_meta)
+sensor_fusion_data.add_sensor_meta(lidar_sensor_meta)
 
 camera_1_intrinsics = playment.Intrinsics(
     cx=1024.56301417, cy=592.004009216, fx=1050.21459961, fy=1051.06384277,
@@ -74,7 +75,7 @@ camera_1_intrinsics = playment.Intrinsics(
 )
 camera_1_sensor_meta = playment.SensorMeta(_id="camera_1", name="camera_1", primary_view=False,
                                            modality="camera", intrinsics=camera_1_intrinsics)
-sensor_data.add_sensor_meta(camera_1_sensor_meta)
+sensor_fusion_data.add_sensor_meta(camera_1_sensor_meta)
 
 camera_2_intrinsics = playment.Intrinsics(
     cx=1013.0894433, cy=596.331393608, fx=2209.12548828, fy=2209.49682617,
@@ -82,7 +83,7 @@ camera_2_intrinsics = playment.Intrinsics(
 )
 camera_2_sensor_meta = playment.SensorMeta(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
 camera_2_sensor_meta.add_intrinsics(camera_2_intrinsics)
-sensor_data.add_sensor_meta(camera_2_sensor_meta)
+sensor_fusion_data.add_sensor_meta(camera_2_sensor_meta)
 
 """
 Preparing frame data
@@ -106,7 +107,7 @@ for i in range(len(lidar_frames)):
     lidar_sensor_pose = playment.SensorPose(heading=lidar_heading, position=lidar_position)
     lidar_sensor.add_sensor_pose(lidar_sensor_pose)
 
-    camera_1_sensor = playment.Sensor(data_url=camera_1_frames[i], sensor_id="camera")
+    camera_1_sensor = playment.Sensor(data_url=camera_1_frames[i], sensor_id="camera_1")
     camera_1_heading = playment.Heading(
         w=sensor_poses['camera_1']['heading']['w'],
         x=sensor_poses['camera_1']['heading']['x'],
@@ -122,7 +123,7 @@ for i in range(len(lidar_frames)):
     camera_1_sensor_pose = playment.SensorPose(heading=camera_1_heading, position=camera_1_position)
     camera_1_sensor.add_sensor_pose(camera_1_sensor_pose)
 
-    camera_2_sensor = playment.Sensor(data_url=camera_2_frames[i], sensor_id="camera")
+    camera_2_sensor = playment.Sensor(data_url=camera_2_frames[i], sensor_id="camera_2")
     camera_2_heading = playment.Heading(
         w=sensor_poses['camera_2']['heading']['w'],
         x=sensor_poses['camera_2']['heading']['x'],
@@ -141,39 +142,49 @@ for i in range(len(lidar_frames)):
     # Preparing a frame with every sensor
     frame = playment.Frame(frame_id=str(i), sensors=[lidar_sensor, camera_1_sensor, camera_2_sensor])
     # Adding the frame in sensor data
-    sensor_data.add_frame(frame)
+    sensor_fusion_data.add_frame(frame)
+
 
 image_data = playment.ImageData(image_url="http://dfnq1fss3rnqc.cloudfront.net/play/original/b28565f1-5c9a-431a-94de-14d6f2c2f04e")
 
-
-
 """
-Defining a job with sensor data
-:param reference_id: This will be unique for every job in a given project.
-:param tag: This will be provided by Playment and will only take one type of data. For e.g. ImageData or SensorData.
-:param data: This is the data you are sending to Playment.
-:param batch: This is an optional argument which will associate the job to the given batch if its left as none,
-              the job will be associated with the default batch. It is recommended to create a batch for a set of flus.
-:param priority_weight(optional): Range of priority weight is [1,10] and integers only. 10 is the highest priority.
-                                  Default is 5.
+Get Job Data
 """
-job = playment.Job(reference_id="46", tag="asad", data=image_data)
-
-# client = playment.Client("HRGudEwp0b50Vk2Ao87elc5n6mRnLNe+LXW2PWks6Rg")
-client = playment.Client("q45mDnKEcGLctPPRibbPp6/91IrVKddenqTK8rAGT1Q")
 try:
-    res = client.get_job_data(project_id="00d13bf0-b1c5-41a1-9a86-36677cb9f8d0", job_id="48284fcd-c6f9-4361-8f7d-feac38b60b4b")
+    res = client.get_job_data(project_id="00d13bf0-b1c5-41a1-9a86-36677cb9f8d0",
+                              job_id="48284fcd-c6f9-4361-8f7d-feac38b60b4b")
 except playment.exception.PlaymentException as e:
-    print(e.__dict__)
-# print(client.get_project_batches_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723"))
-# print(client.get_batch_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723",
-#                                batch_id="17492663-e795-418d-970d-1f293693a5f0"))
-# project_summary = client.get_project_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
-# try:
-#     resp = client.create_job(job=job, project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
-#     print(resp.__dict__)
-#
-# except playment.exception.PlaymentException as e:
-#     print(e.__dict__)
+    print(e.code, e.message, e.data)
+
+"""
+Get project's batches summary
+"""
+print(client.get_project_batches_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723"))
+
+"""
+Get batch summary
+"""
+print(client.get_batch_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723",
+                               batch_id="17492663-e795-418d-970d-1f293693a5f0"))
+
+"""
+Get project summary
+"""
+try:
+    project_summary = client.get_project_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
+except playment.PlaymentException as e:
+    print(e.code, e.message, e.data)
+
+
+"""
+Sensor Data job creation
+"""
+sensor_data = playment.sensors.SensorData(sensor_fusion_data)
+try:
+    resp = client.create_job(reference_id="54", tag='sensor_fusion',
+                             data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")
+
+except playment.PlaymentException as e:
+    print(e.code, e.message, e.data)
 
 

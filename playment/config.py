@@ -30,4 +30,4 @@ apis = {
 }
 
 
-types = json2obj(json.dumps(apis))
+urls = json2obj(json.dumps(apis))

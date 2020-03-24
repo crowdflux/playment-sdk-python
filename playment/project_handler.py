@@ -1,4 +1,4 @@
-from playment.batch_handler import Batch
+from playment.batches.batch_handler import Batch
 
 
 class Project:

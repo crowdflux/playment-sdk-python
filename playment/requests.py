@@ -1,6 +1,7 @@
 import requests
 from playment.response import PlaymentResponse
 from playment.exception import PlaymentException
+from playment.utilities import to_dict
 import time
 
 
@@ -49,7 +50,12 @@ class Requests:
             headers = self.headers
         else:
             headers.update(self.headers)
-        data = data.__dict__
+
+        if data is not None:
+            data = to_dict(obj=data)
+            print(data)
+
+        # data = data.__dict__
         res = requests.post(url, headers=headers, json=data)
         if is_retryable(res.status_code):
             res = retry(url=url, headers=headers, data=data, method=res.request.method, limit=limit)

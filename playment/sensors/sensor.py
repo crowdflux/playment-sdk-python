@@ -1,4 +1,4 @@
-from playment.sensor.sensor_pose import SensorPose
+from playment.sensors.sensor_pose import SensorPose
 
 
 class Sensor:
