@@ -3,7 +3,7 @@ import playment
 client = playment.Client("HRGudEwp0b50Vk2Ao87elc5n6mRnLNe+LXW2PWks6Rg")
 
 """
-Defining sensor_poses for cameras w.r.t lidar
+Collect sensor_poses for cameras w.r.t lidar in your suitable format
 """
 sensor_poses = {
     "lidar": {
@@ -161,7 +161,7 @@ for i in range(len(lidar_frames)):
 """
 Sensor Data job creation
 """
-sensor_data = playment.sensors.SensorData(sensor_fusion_data)
+sensor_data = playment.SensorData(sensor_fusion_data)
 try:
     job = client.create_job(reference_id="54", tag='sensor_fusion',
                             data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")

@@ -17,28 +17,21 @@ Go at Docs.
 ## Usage
 ```
 import playment-connect as playment
+
 client = playment.Client(client_key="your x-client-key")
 ```
 
-```
-"""
-Preparing a project object
-:param project_id: Should be a string of uuid which you can get from the Playment's Customer Dashboard.
-"""
-PROJECT_ID = "project_id"
-project = playment.Project(project_id=PROJECT_ID)
-```
 
 
 #### Get Project Summary
 ```
 """
-Get Project Summary
+Get project summary
 """
 try:
-    print(client.get_project_summary(project=project))
+    project_summary = client.get_project_summary(project_id=project_id)
 except playment.PlaymentException as e:
-    print(e.status_code, e.message)
+    print(e.code, e.message, e.data)
 ```
 
 
@@ -48,9 +41,9 @@ except playment.PlaymentException as e:
 Get Project's Batches Summary: This will provide all the batches and their summary
 """
 try:
-    print(client.get_project_batches_summary(project=project))
+    project_batch_summary = client.get_project_batches_summary(project_id=project_id)
 except playment.PlaymentException as e:
-    print(e.status_code, e.message)
+    print(e.code, e.message, e.data)
 ```
 
 
@@ -58,13 +51,14 @@ except playment.PlaymentException as e:
 ```
 """
 Get Batch Summary: This will provide you summary of batch with its jobs and viewer links.
+:param project_id: Should be a string of uuid which you can get from the Playment's Customer Dashboard.
 :param batch_id: Should be a string of uuid which you can get from the Playment's Customer Dashboard.
 """
-batch = playment.Batch(batch_id="batch_id")
 try:
-    print(client.get_batch_summary(batch=batch, project=project))
+    batch_summary = client.get_batch_summary(project_id=project_id,
+                                             batch_id=batch_id)
 except playment.PlaymentException as e:
-    print(e.status_code, e.message)
+    print(e.code, e.message, e.data)
 ```
 
 
@@ -77,21 +71,15 @@ Creating new batch: This will return a batch object with batch_id
 :param description: Description for the batch. E.g. Alias for unknown.
 """
 try:
-    batch = playment.Batch(name="test_1", label="test_1", description="testing")
-    batch = client.create_batch(batch=batch, project=project)
+    batch = client.create_batch(name="test_99", label="test_99", description="label",
+                                project_id=project_id)
 except playment.PlaymentException as e:
-    print(e.message, e.status_code)
+    print(e.code, e.message, e.data)
 ```
 
 
 #### Creating a Single-Image Based Job 
 ```
-"""
-Define a batch
-:param batch_id: Should be a string of uuid which you can get from the Playment's customer dashboard
-"""
-batch = playment.Batch(batch_id="batch_id")
-
 
 """
 Creating Image data:
@@ -110,19 +98,20 @@ Defining a job with image data
               the job will be associated with the default batch. It is recommended to create a batch for a set of flus.
 :param priority_weight: Range of priority weight is [1,10] and integers only. 10 is the highest priority.
 """
-job = playment.Job(reference_id="33", tag='image', data=image_data, batch=batch)
+"""
+Image Data job creation
+"""
+try:
+    job = client.create_job(reference_id=reference_id, tag=tag,
+                            data=image_data, project_id=project_id)
+except playment.PlaymentException as e:
+    print(e.code, e.message, e.data)
 
 ```
 
 
-#### Creating a Sensor Based Job with Multiple Images with sensors limiting upto 2.
+#### Creating a Sensor Based Job with Multiple Images with only camera sensor.
 ```
-"""
-Define a batch
-:param batch_id: Should be a string of uuid which you can get from the Playment's customer dashboard
-"""
-batch = playment.Batch(batch_id="batch_id")
-
 
 frames = [
     "https://example.com/image_url_1",
@@ -132,13 +121,13 @@ frames = [
 
 
 """
-Create sensor_data variable
+Create sensor_fusion_data variable
 """
-sensor_data = playment.SensorFusionData()
+sensor_fusion_data = playment.SensorFusionData()
 
 
 """
-Defining Sensor
+Defining Sensor Meta: Contain details of sensor
 :param _id: This is the sensor's id.
 :param name: Name of the sensor.
 :param primary_view: Only one of the sensor can have primary_view as true.
@@ -156,51 +145,54 @@ for i in range(len(frames)):
     # Preparing a frame with every sensor
     frame = playment.Frame(str(i), [sensor])
     # Adding the frame in sensor data
-    sensor_data.add_frame(frame)
+    sensor_fusion_data.add_frame(frame)
 
 
 """
 Adding Sensor Meta
 """
-sensor_data.add_sensor_meta(sensor_meta)
+sensor_fusion_data.add_sensor_meta(sensor_meta)
 
+sensor_data = playment.SensorData(sensor_fusion_data)
 
 """
-Defining a job with sensor data
+Creating a job with sensor data
 :param reference_id: This will be unique for every job in a given project.
 :param tag: This will be provided by Playment and will only take one type of data. For e.g. ImageData or SensorData.
 :param data: This is the data you are sending to Playment.
-:param batch: This is an optional argument which will associate the job to the given batch if its left as none,
+:param batch_id: This is an optional argument which will associate the job to the given batch if its left as none,
               the job will be associated with the default batch. It is recommended to create a batch for a set of flus.
 :param priority_weight(optional): Range of priority weight is [1,10] and integers only. 10 is the highest priority.
                                   Default is 5.
 """
-job = playment.Job(reference_id="34", tag='sensor_fusion', data=sensor_data, batch=batch)
+try:
+    job = client.create_job(reference_id="54", tag='sensor_fusion',
+                            data=sensor_data, project_id=project_id)
+
+except playment.PlaymentException as e:
+    print(e.code, e.message, e.data)
 
 ```
 
 #### Creating a Sensor Based Job with Multiple Images/PCDs.
 ```
 """
-Define a batch
-:param batch_id: Should be a string of uuid which you can get from the Playment's customer dashboard
-"""
-batch = playment.Batch(batch_id="batch_id")
-
-"""
 Defining sensor_poses for cameras w.r.t lidar
 """
 sensor_poses = {
     "lidar": {
-        "heading": {"w": 1, "x": 0, "y": 0, "z": 0},
+        "heading": {"w": 1, "x": 0,
+                    "y": 0, "z": 0},
         "position": {"x": 0, "y": 0, "z": 0}
     },
     "camera_1": {
-        "heading": {"w": -0.4512317755370607, "x": 0.5520064554320538, "y": -0.5425287998749007, "z": 0.444231087625815},
+        "heading": {"w": -0.4512317755370607, "x": 0.5520064554320538,
+                    "y": -0.5425287998749007, "z": 0.444231087625815},
         "position": {"x": 0, "y": 0, "z": 0}
     },
     "camera_2": {
-        "heading": {"w": -0.7029770474706961, "x": 0.6997847239102162, "y": 0.10452563699437759, "z": -0.07210410614207517},
+        "heading": {"w": -0.7029770474706961, "x": 0.6997847239102162,
+                    "y": 0.10452563699437759, "z": -0.07210410614207517},
         "position": {"x": 0, "y": 0, "z": 0}
     }
 }
@@ -224,12 +216,12 @@ camera_2_frames = [
 ]
 
 """
-Initialize sensor_data
+Initialize sensor_fusion_data
 """
-sensor_data = playment.SensorFusionData()
+sensor_fusion_data = playment.SensorFusionData()
 
 """
-Defining Sensor
+Defining Sensor Meta: This will contain detail about sensor's attributes.
 :param _id: This is the sensor's id.
 :param name: Name of the sensor.
 :param primary_view: Only one of the sensor can have primary_view as true.
@@ -251,24 +243,34 @@ Defining Sensor
                 "scale_factor": The factor by which the image has been downscaled (=2 if original image is twice as
                                 large as the downscaled image)
 """
-lidar_sensor_meta = playment.SensorMeta(_id="lidar", name="lidar", primary_view=True, modality="lidar")
-sensor_data.add_sensor_meta(lidar_sensor_meta)
 
+"""
+Preparing Lidar Sensor Meta
+"""
+lidar_sensor_meta = playment.SensorMeta(_id="lidar", name="lidar", primary_view=True, modality="lidar")
+sensor_fusion_data.add_sensor_meta(lidar_sensor_meta)
+
+"""
+Preparing Camera Sensor Meta for camera_1
+"""
 camera_1_intrinsics = playment.Intrinsics(
     cx=1024.56301417, cy=592.004009216, fx=1050.21459961, fy=1051.06384277,
     k1=0, k2=0, k3=0, k4=0, p1=0, p2=0, skew=0, scale_factor=1
 )
 camera_1_sensor_meta = playment.SensorMeta(_id="camera_1", name="camera_1", primary_view=False,
                                            modality="camera", intrinsics=camera_1_intrinsics)
-sensor_data.add_sensor_meta(camera_1_sensor_meta)
+sensor_fusion_data.add_sensor_meta(camera_1_sensor_meta)
 
+"""
+Preparing Camera Sensor Meta for camera_2
+"""
 camera_2_intrinsics = playment.Intrinsics(
     cx=1013.0894433, cy=596.331393608, fx=2209.12548828, fy=2209.49682617,
     k1=0, k2=0, k3=0, k4=0, p1=0, p2=0, skew=0, scale_factor=1
 )
 camera_2_sensor_meta = playment.SensorMeta(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
 camera_2_sensor_meta.add_intrinsics(camera_2_intrinsics)
-sensor_data.add_sensor_meta(camera_2_sensor_meta)
+sensor_fusion_data.add_sensor_meta(camera_2_sensor_meta)
 
 """
 Preparing frame data
@@ -292,7 +294,7 @@ for i in range(len(lidar_frames)):
     lidar_sensor_pose = playment.SensorPose(heading=lidar_heading, position=lidar_position)
     lidar_sensor.add_sensor_pose(lidar_sensor_pose)
 
-    camera_1_sensor = playment.Sensor(data_url=camera_1_frames[i], sensor_id="camera")
+    camera_1_sensor = playment.Sensor(data_url=camera_1_frames[i], sensor_id="camera_1")
     camera_1_heading = playment.Heading(
         w=sensor_poses['camera_1']['heading']['w'],
         x=sensor_poses['camera_1']['heading']['x'],
@@ -308,7 +310,7 @@ for i in range(len(lidar_frames)):
     camera_1_sensor_pose = playment.SensorPose(heading=camera_1_heading, position=camera_1_position)
     camera_1_sensor.add_sensor_pose(camera_1_sensor_pose)
 
-    camera_2_sensor = playment.Sensor(data_url=camera_2_frames[i], sensor_id="camera")
+    camera_2_sensor = playment.Sensor(data_url=camera_2_frames[i], sensor_id="camera_2")
     camera_2_heading = playment.Heading(
         w=sensor_poses['camera_2']['heading']['w'],
         x=sensor_poses['camera_2']['heading']['x'],
@@ -327,27 +329,18 @@ for i in range(len(lidar_frames)):
     # Preparing a frame with every sensor
     frame = playment.Frame(frame_id=str(i), sensors=[lidar_sensor, camera_1_sensor, camera_2_sensor])
     # Adding the frame in sensor data
-    sensor_data.add_frame(frame)
+    sensor_fusion_data.add_frame(frame)
+
 
 """
-Defining a job with sensor data
-:param reference_id: This will be unique for every job in a given project.
-:param tag: This will be provided by Playment and will only take one type of data. For e.g. ImageData or SensorData.
-:param data: This is the data you are sending to Playment.
-:param batch: This is an optional argument which will associate the job to the given batch if its left as none,
-              the job will be associated with the default batch. It is recommended to create a batch for a set of flus.
-:param priority_weight(optional): Range of priority weight is [1,10] and integers only. 10 is the highest priority.
-                                  Default is 5.
+Sensor Data job creation
 """
-job = playment.Job(reference_id="30", tag="sensor_fusion", data=sensor_data)
-
-"""
-Creating the job
-"""
+sensor_data = playment.SensorData(sensor_fusion_data)
 try:
-    res = client.create_job(job, project=project)
-    print(res)
+    job = client.create_job(reference_id="54", tag='sensor_fusion',
+                            data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")
+
 except playment.PlaymentException as e:
-    print(e.status_code, e.message)
+    print(e.code, e.message, e.data)
 
 ```

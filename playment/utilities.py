@@ -1,6 +1,4 @@
 import json
-from collections import namedtuple
-from playment.projects import ProjectSummary
 import abc
 
 
