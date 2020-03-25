@@ -1,8 +1,8 @@
-from playment.job import Job
+from playment.jobs import Job
 from playment.config import urls
 from playment.requests import Requests
 from playment.batches.batch_handler import Batch
-from playment.data import Data
+from playment.base.data import Data
 from playment.utilities import JSON2Obj
 from playment.projects import ProjectSummary, ProjectBatchSummary
 from playment.batches import BatchSummary

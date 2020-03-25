@@ -1,4 +1,4 @@
-from playment.data import Data
+from playment.base.data import Data
 
 
 class Job:
