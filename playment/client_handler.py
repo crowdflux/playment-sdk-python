@@ -14,7 +14,7 @@ import json
 
 class Client:
     def __init__(self, client_key: str):
-        assert client_key is not None
+        assert client_key is not None and type(client_key) is str
         self.client_key = client_key
         self.requester = Requests(client_key)
 
@@ -32,7 +32,7 @@ class Client:
 
     def create_job(self, reference_id: str, tag: str, data: Data, project_id: str,
                    priority_weight: int = 5, batch_id: str = None) -> Job:
-        assert project_id is not None
+        assert project_id is not None and type(project_id) is str
         assert issubclass(type(data), Data) is True
         url = urls.job_creation.format(project_id)
         job = Job(reference_id=reference_id, tag=tag, data=data, priority_weight=priority_weight, batch_id=batch_id)
@@ -40,13 +40,12 @@ class Client:
             url=url,
             data=job
         )
-        print(response.data)
         job_response = JSON2Obj(JobResponse(), json.dumps(response.data)).json2obj()
         job.id = job_response.job_id
         return job
 
     def get_project_summary(self, project_id: str) -> ProjectSummary:
-        assert project_id is not None
+        assert project_id is not None and type(project_id) is str
         url = urls.project_summary.format(project_id)
         response = self.requester.get(
             url=url
@@ -55,7 +54,7 @@ class Client:
         return response
 
     def get_project_batches_summary(self, project_id: str)->ProjectBatchSummary:
-        assert project_id is not None
+        assert project_id is not None and type(project_id) is str
         url = urls.project_batch_details.format(project_id)
         response = self.requester.get(
             url=url
@@ -64,8 +63,8 @@ class Client:
         return response
 
     def get_batch_summary(self, batch_id: str, project_id: str)->BatchSummary:
-        assert batch_id is not None
-        assert project_id is not None
+        assert batch_id is not None and type(batch_id) is str
+        assert project_id is not None and type(project_id) is str
         url = urls.batch_summary.format(project_id, batch_id)
         response = self.requester.get(
             url=url
@@ -73,9 +72,9 @@ class Client:
         response = JSON2Obj(BatchSummary(), json.dumps(response.data)).json2obj()
         return response
 
-    def get_job_data(self, project_id: str, job_id: str) -> JobResult:
-        assert project_id is not None
-        assert job_id is not None
+    def get_job_result(self, project_id: str, job_id: str) -> JobResult:
+        assert project_id is not None and type(project_id) is str
+        assert job_id is not None and type(job_id) is str
         url = urls.job_result.format(project_id, job_id)
         response = self.requester.get(
             url=url

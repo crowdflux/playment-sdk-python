@@ -67,7 +67,7 @@ Defining Sensor
                                 large as the downscaled image)
 """
 lidar_sensor_meta = playment.Sensor(_id="lidar", name="lidar", primary_view=True, modality="lidar")
-sensor_fusion_data.add_sensor_meta(lidar_sensor_meta)
+sensor_fusion_data.add_sensor(lidar_sensor_meta)
 
 camera_1_intrinsics = playment.Intrinsics(
     cx=1024.56301417, cy=592.004009216, fx=1050.21459961, fy=1051.06384277,
@@ -75,7 +75,7 @@ camera_1_intrinsics = playment.Intrinsics(
 )
 camera_1_sensor_meta = playment.Sensor(_id="camera_1", name="camera_1", primary_view=False,
                                        modality="camera", intrinsics=camera_1_intrinsics)
-sensor_fusion_data.add_sensor_meta(camera_1_sensor_meta)
+sensor_fusion_data.add_sensor(camera_1_sensor_meta)
 
 camera_2_intrinsics = playment.Intrinsics(
     cx=1013.0894433, cy=596.331393608, fx=2209.12548828, fy=2209.49682617,
@@ -83,7 +83,7 @@ camera_2_intrinsics = playment.Intrinsics(
 )
 camera_2_sensor_meta = playment.Sensor(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
 camera_2_sensor_meta.add_intrinsics(camera_2_intrinsics)
-sensor_fusion_data.add_sensor_meta(camera_2_sensor_meta)
+sensor_fusion_data.add_sensor(camera_2_sensor_meta)
 
 """
 Preparing frame data
@@ -151,8 +151,8 @@ image_data = playment.ImageData(image_url="http://dfnq1fss3rnqc.cloudfront.net/p
 Get Job Data
 """
 try:
-    res = client.get_job_data(project_id="00d13bf0-b1c5-41a1-9a86-36677cb9f8d0",
-                              job_id="48284fcd-c6f9-4361-8f7d-feac38b60b4b")
+    res = client.get_job_result(project_id="00d13bf0-b1c5-41a1-9a86-36677cb9f8d0",
+                                job_id="48284fcd-c6f9-4361-8f7d-feac38b60b4b")
 except playment.exception.PlaymentException as e:
     print(e.code, e.message, e.data)
 

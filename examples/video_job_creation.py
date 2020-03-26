@@ -40,7 +40,7 @@ for i in range(len(frames)):
 """
 Adding Sensor Meta
 """
-sensor_fusion_data.add_sensor_meta(sensor_meta)
+sensor_fusion_data.add_sensor(sensor_meta)
 
 sensor_data = playment.SensorData(sensor_fusion_data)
 

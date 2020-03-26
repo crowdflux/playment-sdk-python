@@ -8,6 +8,9 @@ def _json_object_hook(d):
 
 class ProjectBatchSummary(Decodable):
     def __init__(self, name: str = None, base: str = None, batches: list = None):
+        assert type(name) is str
+        assert type(base) is str
+        assert type(batches) is list
         self.name = name
         self.base = base
         self.batches = batches

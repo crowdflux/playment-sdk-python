@@ -71,10 +71,10 @@ Defining Sensor Meta: This will contain detail about sensor's attributes.
 """
 
 """
-Preparing Lidar Sensor Meta
+Preparing Lidar Sensor
 """
-lidar_sensor_meta = playment.Sensor(_id="lidar", name="lidar", primary_view=True, modality="lidar")
-sensor_fusion_data.add_sensor_meta(lidar_sensor_meta)
+lidar_sensor = playment.Sensor(_id="lidar", name="lidar", primary_view=True, modality="lidar")
+sensor_fusion_data.add_sensor(lidar_sensor)
 
 """
 Preparing Camera Sensor Meta for camera_1
@@ -83,9 +83,9 @@ camera_1_intrinsics = playment.Intrinsics(
     cx=1024.56301417, cy=592.004009216, fx=1050.21459961, fy=1051.06384277,
     k1=0, k2=0, k3=0, k4=0, p1=0, p2=0, skew=0, scale_factor=1
 )
-camera_1_sensor_meta = playment.Sensor(_id="camera_1", name="camera_1", primary_view=False,
-                                       modality="camera", intrinsics=camera_1_intrinsics)
-sensor_fusion_data.add_sensor_meta(camera_1_sensor_meta)
+camera_1 = playment.Sensor(_id="camera_1", name="camera_1", primary_view=False,
+                           modality="camera", intrinsics=camera_1_intrinsics)
+sensor_fusion_data.add_sensor(camera_1)
 
 """
 Preparing Camera Sensor Meta for camera_2
@@ -94,9 +94,9 @@ camera_2_intrinsics = playment.Intrinsics(
     cx=1013.0894433, cy=596.331393608, fx=2209.12548828, fy=2209.49682617,
     k1=0, k2=0, k3=0, k4=0, p1=0, p2=0, skew=0, scale_factor=1
 )
-camera_2_sensor_meta = playment.Sensor(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
-camera_2_sensor_meta.add_intrinsics(camera_2_intrinsics)
-sensor_fusion_data.add_sensor_meta(camera_2_sensor_meta)
+camera_2 = playment.Sensor(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
+camera_2.add_intrinsics(camera_2_intrinsics)
+sensor_fusion_data.add_sensor(camera_2)
 
 """
 Preparing frame data
