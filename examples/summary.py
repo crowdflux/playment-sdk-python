@@ -24,5 +24,6 @@ Get project's batches summary
 """
 try:
     project_batch_summary = client.get_project_batches_summary(project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
+    print(project_batch_summary)
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)

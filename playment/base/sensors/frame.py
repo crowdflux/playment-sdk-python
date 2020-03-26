@@ -1,11 +1,11 @@
-from playment.base.sensors.sensor import Sensor
+from playment.base.sensors.sensorframeobject import SensorFrameObject
 from typing import List
 
 
 class Frame:
-    def __init__(self, frame_id: str = None, sensors: List[Sensor] = []):
+    def __init__(self, frame_id: str = None, sensors: List[SensorFrameObject] = []):
         self.frame_id = frame_id
         self.sensors = sensors
 
-    def add_sensor(self, sensor: Sensor):
+    def add_sensor(self, sensor: SensorFrameObject):
         self.sensors.append(sensor)

@@ -66,22 +66,22 @@ Defining Sensor
                 "scale_factor": The factor by which the image has been downscaled (=2 if original image is twice as
                                 large as the downscaled image)
 """
-lidar_sensor_meta = playment.SensorMeta(_id="lidar", name="lidar", primary_view=True, modality="lidar")
+lidar_sensor_meta = playment.Sensor(_id="lidar", name="lidar", primary_view=True, modality="lidar")
 sensor_fusion_data.add_sensor_meta(lidar_sensor_meta)
 
 camera_1_intrinsics = playment.Intrinsics(
     cx=1024.56301417, cy=592.004009216, fx=1050.21459961, fy=1051.06384277,
     k1=0, k2=0, k3=0, k4=0, p1=0, p2=0, skew=0, scale_factor=1
 )
-camera_1_sensor_meta = playment.SensorMeta(_id="camera_1", name="camera_1", primary_view=False,
-                                           modality="camera", intrinsics=camera_1_intrinsics)
+camera_1_sensor_meta = playment.Sensor(_id="camera_1", name="camera_1", primary_view=False,
+                                       modality="camera", intrinsics=camera_1_intrinsics)
 sensor_fusion_data.add_sensor_meta(camera_1_sensor_meta)
 
 camera_2_intrinsics = playment.Intrinsics(
     cx=1013.0894433, cy=596.331393608, fx=2209.12548828, fy=2209.49682617,
     k1=0, k2=0, k3=0, k4=0, p1=0, p2=0, skew=0, scale_factor=1
 )
-camera_2_sensor_meta = playment.SensorMeta(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
+camera_2_sensor_meta = playment.Sensor(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
 camera_2_sensor_meta.add_intrinsics(camera_2_intrinsics)
 sensor_fusion_data.add_sensor_meta(camera_2_sensor_meta)
 
@@ -91,7 +91,7 @@ Preparing frame data
 
 for i in range(len(lidar_frames)):
     # Preparing a sensor with with sensor frame url and sensor_id
-    lidar_sensor = playment.Sensor(data_url=lidar_frames[i], sensor_id="lidar")
+    lidar_sensor = playment.SensorFrameObject(data_url=lidar_frames[i], sensor_id="lidar")
     lidar_heading = playment.Heading(
         w=sensor_poses['lidar']['heading']['w'],
         x=sensor_poses['lidar']['heading']['x'],
@@ -107,7 +107,7 @@ for i in range(len(lidar_frames)):
     lidar_sensor_pose = playment.SensorPose(heading=lidar_heading, position=lidar_position)
     lidar_sensor.add_sensor_pose(lidar_sensor_pose)
 
-    camera_1_sensor = playment.Sensor(data_url=camera_1_frames[i], sensor_id="camera_1")
+    camera_1_sensor = playment.SensorFrameObject(data_url=camera_1_frames[i], sensor_id="camera_1")
     camera_1_heading = playment.Heading(
         w=sensor_poses['camera_1']['heading']['w'],
         x=sensor_poses['camera_1']['heading']['x'],
@@ -123,7 +123,7 @@ for i in range(len(lidar_frames)):
     camera_1_sensor_pose = playment.SensorPose(heading=camera_1_heading, position=camera_1_position)
     camera_1_sensor.add_sensor_pose(camera_1_sensor_pose)
 
-    camera_2_sensor = playment.Sensor(data_url=camera_2_frames[i], sensor_id="camera_2")
+    camera_2_sensor = playment.SensorFrameObject(data_url=camera_2_frames[i], sensor_id="camera_2")
     camera_2_heading = playment.Heading(
         w=sensor_poses['camera_2']['heading']['w'],
         x=sensor_poses['camera_2']['heading']['x'],

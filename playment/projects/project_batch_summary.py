@@ -3,7 +3,7 @@ from playment.utilities import Decodable
 
 
 def _json_object_hook(d):
-    return namedtuple('batch_details', d.keys())(*d.values())
+    return namedtuple('BatchDetails', d.keys())(*d.values())
 
 
 class ProjectBatchSummary(Decodable):

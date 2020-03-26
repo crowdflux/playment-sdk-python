@@ -84,6 +84,7 @@ except playment.PlaymentException as e:
 """
 Creating Image data:
 :param image_url: Provide a valid image_url
+:param metadata: This key will be added to your image_data and can be used to give further details over the job.
 """
 image_url = "https://example.com/image_url_1"
 image_data = playment.ImageData(image_url=image_url)
@@ -153,6 +154,11 @@ Adding Sensor Meta
 """
 sensor_fusion_data.add_sensor_meta(sensor_meta)
 
+"""
+Creating Sensor Data
+:param sensor_fusion_data: This parameter is to store sensor_fusion_data you've made above.
+:param metadata: This key will be added to your sensor_data and can be used to give further details over the job.
+"""
 sensor_data = playment.SensorData(sensor_fusion_data)
 
 """
@@ -333,7 +339,9 @@ for i in range(len(lidar_frames)):
 
 
 """
-Sensor Data job creation
+Creating Sensor Data
+:param sensor_fusion_data: This parameter is to store sensor_fusion_data you've made above.
+:param metadata: This key will be added to your sensor_data and can be used to give further details over the job.
 """
 sensor_data = playment.SensorData(sensor_fusion_data)
 try:
