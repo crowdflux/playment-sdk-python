@@ -18,9 +18,8 @@ class TestJson2Obj(unittest.TestCase):
         test_data = to_dict(SensorData())
         self.assertDictEqual(test_data, {"sensor_data": {"sensor_meta": [], "frames": []}, "metadata": None})
 
-    def test_todict_2(self):
-        test_data = to_dict(SensorData())
-        self.assertDictEqual(test_data, {"sensor_data": {"sensor_meta": [], "frames": []}})
+    def test_todict_fail(self):
+        self.assertRaises(AssertionError, to_dict, 'sensor')
 
 
 class URL(Decodable):
