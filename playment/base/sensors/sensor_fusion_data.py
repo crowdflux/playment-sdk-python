@@ -5,8 +5,8 @@ from typing import List
 
 class SensorFusionData:
     def __init__(self, frames: List[Frame] = [], sensor: List[Sensor] = []):
-        assert type(frames) is List[Frame]
-        assert type(sensor) is List[Sensor]
+        assert type(frames) is List[Frame] or frames == []
+        assert type(sensor) is List[Sensor] or sensor == []
         self.frames = frames
         self.sensor_meta = sensor
 

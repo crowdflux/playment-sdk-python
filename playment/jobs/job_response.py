@@ -13,4 +13,4 @@ class JobResponse(Decodable):
         self.tag = tag
 
     def json_object_hook(self, d):
-        return namedtuple('JobResponse', d.keys())(*d.values())
+        return namedtuple(self.__class__.__name__, d.keys())(*d.values())

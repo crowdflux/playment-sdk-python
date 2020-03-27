@@ -23,4 +23,4 @@ class JobResult(Decodable):
         self.result = result
 
     def json_object_hook(self, d):
-        return namedtuple('JobResult', d.keys())(*d.values())
+        return namedtuple(self.__class__.__name__, d.keys())(*d.values())

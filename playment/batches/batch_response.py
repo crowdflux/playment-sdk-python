@@ -8,4 +8,4 @@ class BatchResponse(Decodable):
         self.batch_id = batch_id
 
     def json_object_hook(self, d):
-        return namedtuple('BatchResponse', d.keys())(*d.values())
+        return namedtuple(self.__class__.__name__, d.keys())(*d.values())

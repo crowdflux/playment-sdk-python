@@ -3,7 +3,7 @@ from collections import namedtuple
 
 
 def _json_object_hook(d):
-    return namedtuple('api_types', d.keys())(*d.values())
+    return namedtuple('api_urls', d.keys())(*d.values())
 
 
 def json2obj(data):

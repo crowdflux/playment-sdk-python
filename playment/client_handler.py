@@ -51,6 +51,7 @@ class Client:
             url=url
         )
         response = JSON2Obj(ProjectSummary(), json.dumps(response.data)).json2obj()
+        # print(type(response))
         return response
 
     def get_project_batches_summary(self, project_id: str)->ProjectBatchSummary:

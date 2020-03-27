@@ -18,4 +18,4 @@ class ProjectSummary(Decodable):
         self.annotations = annotations
 
     def json_object_hook(self, d):
-        return namedtuple('ProjectSummary', d.keys())(*d.values())
+        return namedtuple(self.__class__.__name__, d.keys())(*d.values())

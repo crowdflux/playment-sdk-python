@@ -7,10 +7,10 @@ def _json_object_hook(d):
 
 
 class ProjectBatchSummary(Decodable):
-    def __init__(self, name: str = None, base: str = None, batches: list = None):
-        assert type(name) is str
-        assert type(base) is str
-        assert type(batches) is list
+    def __init__(self, name: str = None, base: str = None, batches: list = []):
+        assert type(name) is str or name is None
+        assert type(base) is str or base is None
+        assert type(batches) is list or batches == []
         self.name = name
         self.base = base
         self.batches = batches
@@ -22,5 +22,5 @@ class ProjectBatchSummary(Decodable):
                 j = dict(j._asdict())
                 jobs.append(_json_object_hook(j))
             d['batches'] = jobs
-        obj = namedtuple('ProjectBatchSummary', d.keys())(*d.values())
+        obj = namedtuple(self.__class__.__name__, d.keys())(*d.values())
         return obj
