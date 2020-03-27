@@ -82,29 +82,17 @@ except playment.PlaymentException as e:
 ```
 
 """
-Creating Image data:
-:param image_url: Provide a valid image_url
-:param metadata: This key will be added to your image_data and can be used to give further details over the job.
+Prepare Image Data
 """
-image_url = "https://example.com/image_url_1"
+image_url = "http://dfnq1fss3rnqc.cloudfront.net/play/original/b28565f1-5c9a-431a-94de-14d6f2c2f04e"
 image_data = playment.ImageData(image_url=image_url)
 
-
-"""
-Defining a job with image data
-:param reference_id: This will be unique for every job in a given project.
-:param tag: This will be provided by Playment and will only take one type of data. For e.g. ImageData or SensorData.
-:param data: This is the data you are sending to Playment.
-:param batch: This is an optional argument which will associate the job to the given batch if its left as none,
-              the job will be associated with the default batch. It is recommended to create a batch for a set of flus.
-:param priority_weight: Range of priority weight is [1,10] and integers only. 10 is the highest priority.
-"""
 """
 Image Data job creation
 """
 try:
-    job = client.create_job(reference_id=reference_id, tag=tag,
-                            data=image_data, project_id=project_id)
+    job = client.create_job(reference_id="55", tag='image',
+                            data=image_data, project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)
 
@@ -124,7 +112,7 @@ frames = [
 """
 Create sensor_fusion_data variable
 """
-sensor_fusion_data = playment.SensorFusionData()
+sensor_data = playment.SensorData()
 
 
 """
@@ -134,32 +122,24 @@ Defining Sensor Meta: Contain details of sensor
 :param primary_view: Only one of the sensor can have primary_view as true.
 :param state(optional): If you want this sensor not to be annotated, provide state as non_editable. Default is editable.
 """
-sensor_meta = playment.SensorMeta(_id="right", name="right", primary_view=True)
+sensor = playment.Sensor(_id="right", name="right", primary_view=True)
 
+"""
+Adding Sensor Meta
+"""
+sensor_data.add_sensor(sensor=sensor)
 
 """
 Preparing Frame Data
 """
 for i in range(len(frames)):
     # Preparing a sensor with with sensor frame url and sensor_id
-    sensor = playment.Sensor(frames[i], sensor_meta.id)
+    sensor_frame_object = playment.SensorFrameObject(frames[i], sensor.id)
     # Preparing a frame with every sensor
-    frame = playment.Frame(str(i), [sensor])
+    frame = playment.Frame(str(i), [sensor_frame_object])
     # Adding the frame in sensor data
-    sensor_fusion_data.add_frame(frame)
+    sensor_data.add_frame(frame=frame)
 
-
-"""
-Adding Sensor Meta
-"""
-sensor_fusion_data.add_sensor_meta(sensor_meta)
-
-"""
-Creating Sensor Data
-:param sensor_fusion_data: This parameter is to store sensor_fusion_data you've made above.
-:param metadata: This key will be added to your sensor_data and can be used to give further details over the job.
-"""
-sensor_data = playment.SensorData(sensor_fusion_data)
 
 """
 Creating a job with sensor data
@@ -173,7 +153,7 @@ Creating a job with sensor data
 """
 try:
     job = client.create_job(reference_id="54", tag='sensor_fusion',
-                            data=sensor_data, project_id=project_id)
+                            data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")
 
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)
@@ -183,7 +163,7 @@ except playment.PlaymentException as e:
 #### Creating a Sensor Based Job with Multiple Images/PCDs.
 ```
 """
-Defining sensor_poses for cameras w.r.t lidar
+Collect sensor_poses for cameras w.r.t lidar in your suitable format
 """
 sensor_poses = {
     "lidar": {
@@ -224,7 +204,7 @@ camera_2_frames = [
 """
 Initialize sensor_fusion_data
 """
-sensor_fusion_data = playment.SensorFusionData()
+sensor_data = playment.SensorData()
 
 """
 Defining Sensor Meta: This will contain detail about sensor's attributes.
@@ -251,10 +231,10 @@ Defining Sensor Meta: This will contain detail about sensor's attributes.
 """
 
 """
-Preparing Lidar Sensor Meta
+Preparing Lidar Sensor
 """
-lidar_sensor_meta = playment.SensorMeta(_id="lidar", name="lidar", primary_view=True, modality="lidar")
-sensor_fusion_data.add_sensor_meta(lidar_sensor_meta)
+lidar_sensor = playment.Sensor(_id="lidar", name="lidar", primary_view=True, modality="lidar")
+sensor_data.add_sensor(lidar_sensor)
 
 """
 Preparing Camera Sensor Meta for camera_1
@@ -263,9 +243,9 @@ camera_1_intrinsics = playment.Intrinsics(
     cx=1024.56301417, cy=592.004009216, fx=1050.21459961, fy=1051.06384277,
     k1=0, k2=0, k3=0, k4=0, p1=0, p2=0, skew=0, scale_factor=1
 )
-camera_1_sensor_meta = playment.SensorMeta(_id="camera_1", name="camera_1", primary_view=False,
-                                           modality="camera", intrinsics=camera_1_intrinsics)
-sensor_fusion_data.add_sensor_meta(camera_1_sensor_meta)
+camera_1 = playment.Sensor(_id="camera_1", name="camera_1", primary_view=False,
+                           modality="camera", intrinsics=camera_1_intrinsics)
+sensor_data.add_sensor(camera_1)
 
 """
 Preparing Camera Sensor Meta for camera_2
@@ -274,9 +254,9 @@ camera_2_intrinsics = playment.Intrinsics(
     cx=1013.0894433, cy=596.331393608, fx=2209.12548828, fy=2209.49682617,
     k1=0, k2=0, k3=0, k4=0, p1=0, p2=0, skew=0, scale_factor=1
 )
-camera_2_sensor_meta = playment.SensorMeta(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
-camera_2_sensor_meta.add_intrinsics(camera_2_intrinsics)
-sensor_fusion_data.add_sensor_meta(camera_2_sensor_meta)
+camera_2 = playment.Sensor(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
+camera_2.add_intrinsics(camera_2_intrinsics)
+sensor_data.add_sensor(camera_2)
 
 """
 Preparing frame data
@@ -284,7 +264,7 @@ Preparing frame data
 
 for i in range(len(lidar_frames)):
     # Preparing a sensor with with sensor frame url and sensor_id
-    lidar_sensor = playment.Sensor(data_url=lidar_frames[i], sensor_id="lidar")
+    lidar_sensor = playment.SensorFrameObject(data_url=lidar_frames[i], sensor_id="lidar")
     lidar_heading = playment.Heading(
         w=sensor_poses['lidar']['heading']['w'],
         x=sensor_poses['lidar']['heading']['x'],
@@ -300,7 +280,7 @@ for i in range(len(lidar_frames)):
     lidar_sensor_pose = playment.SensorPose(heading=lidar_heading, position=lidar_position)
     lidar_sensor.add_sensor_pose(lidar_sensor_pose)
 
-    camera_1_sensor = playment.Sensor(data_url=camera_1_frames[i], sensor_id="camera_1")
+    camera_1_sensor = playment.SensorFrameObject(data_url=camera_1_frames[i], sensor_id="camera_1")
     camera_1_heading = playment.Heading(
         w=sensor_poses['camera_1']['heading']['w'],
         x=sensor_poses['camera_1']['heading']['x'],
@@ -316,7 +296,7 @@ for i in range(len(lidar_frames)):
     camera_1_sensor_pose = playment.SensorPose(heading=camera_1_heading, position=camera_1_position)
     camera_1_sensor.add_sensor_pose(camera_1_sensor_pose)
 
-    camera_2_sensor = playment.Sensor(data_url=camera_2_frames[i], sensor_id="camera_2")
+    camera_2_sensor = playment.SensorFrameObject(data_url=camera_2_frames[i], sensor_id="camera_2")
     camera_2_heading = playment.Heading(
         w=sensor_poses['camera_2']['heading']['w'],
         x=sensor_poses['camera_2']['heading']['x'],
@@ -335,15 +315,12 @@ for i in range(len(lidar_frames)):
     # Preparing a frame with every sensor
     frame = playment.Frame(frame_id=str(i), sensors=[lidar_sensor, camera_1_sensor, camera_2_sensor])
     # Adding the frame in sensor data
-    sensor_fusion_data.add_frame(frame)
+    sensor_data.add_frame(frame)
 
 
 """
-Creating Sensor Data
-:param sensor_fusion_data: This parameter is to store sensor_fusion_data you've made above.
-:param metadata: This key will be added to your sensor_data and can be used to give further details over the job.
+Sensor Data job creation
 """
-sensor_data = playment.SensorData(sensor_fusion_data)
 try:
     job = client.create_job(reference_id="54", tag='sensor_fusion',
                             data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")

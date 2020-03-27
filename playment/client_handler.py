@@ -9,6 +9,7 @@ from playment.batches import BatchSummary
 from playment.jobs import JobResult
 from playment.batches import BatchResponse
 from playment.jobs import JobResponse
+from playment.exception import ExceptionCodes
 import json
 
 
@@ -34,6 +35,8 @@ class Client:
                    priority_weight: int = 5, batch_id: str = None) -> Job:
         assert project_id is not None and type(project_id) is str
         assert issubclass(type(data), Data) is True
+        if not data.valid():
+            raise ExceptionCodes.FS_0003
         url = urls.job_creation.format(project_id)
         job = Job(reference_id=reference_id, tag=tag, data=data, priority_weight=priority_weight, batch_id=batch_id)
         response = self.requester.post(
@@ -45,17 +48,16 @@ class Client:
         return job
 
     def get_project_summary(self, project_id: str) -> ProjectSummary:
-        assert project_id is not None and type(project_id) is str
+        assert project_id is not None
         url = urls.project_summary.format(project_id)
         response = self.requester.get(
             url=url
         )
         response = JSON2Obj(ProjectSummary(), json.dumps(response.data)).json2obj()
-        # print(type(response))
         return response
 
     def get_project_batches_summary(self, project_id: str)->ProjectBatchSummary:
-        assert project_id is not None and type(project_id) is str
+        assert project_id is not None
         url = urls.project_batch_details.format(project_id)
         response = self.requester.get(
             url=url
@@ -64,8 +66,8 @@ class Client:
         return response
 
     def get_batch_summary(self, batch_id: str, project_id: str)->BatchSummary:
-        assert batch_id is not None and type(batch_id) is str
-        assert project_id is not None and type(project_id) is str
+        assert batch_id is not None
+        assert project_id is not None
         url = urls.batch_summary.format(project_id, batch_id)
         response = self.requester.get(
             url=url
@@ -74,8 +76,8 @@ class Client:
         return response
 
     def get_job_result(self, project_id: str, job_id: str) -> JobResult:
-        assert project_id is not None and type(project_id) is str
-        assert job_id is not None and type(job_id) is str
+        assert project_id is not None
+        assert job_id is not None
         url = urls.job_result.format(project_id, job_id)
         response = self.requester.get(
             url=url

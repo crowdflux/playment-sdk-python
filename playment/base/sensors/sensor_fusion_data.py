@@ -5,15 +5,11 @@ from typing import List
 
 class SensorFusionData:
     def __init__(self, frames: List[Frame] = [], sensor: List[Sensor] = []):
-        assert type(frames) is List[Frame] or frames == []
-        assert type(sensor) is List[Sensor] or sensor == []
         self.frames = frames
         self.sensor_meta = sensor
 
     def add_sensor(self, sensor: Sensor):
-        assert type(sensor) is Sensor
         self.sensor_meta.append(sensor)
 
     def add_frame(self, frame: Frame):
-        assert type(frame) is Frame
         self.frames.append(frame)

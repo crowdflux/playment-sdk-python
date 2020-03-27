@@ -4,8 +4,6 @@ from typing import List
 
 class Frame:
     def __init__(self, frame_id: str = None, sensors: List[SensorFrameObject] = []):
-        assert type(frame_id) is str
-        assert type(sensors) is List[SensorFrameObject]
         self.frame_id = frame_id
         self.sensors = sensors
 

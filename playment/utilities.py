@@ -16,9 +16,7 @@ class Decodable(metaclass=abc.ABCMeta):
 
 
 class JSON2Obj:
-    def __init__(self, obj: Decodable, data):
-        assert issubclass(type(obj), Decodable)
-        assert type(json.loads(data)) is dict
+    def __init__(self, obj: Decodable, data: str):
         self.obj = obj
         self.data = data
 

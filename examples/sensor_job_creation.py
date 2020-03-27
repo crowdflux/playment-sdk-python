@@ -44,7 +44,7 @@ camera_2_frames = [
 """
 Initialize sensor_fusion_data
 """
-sensor_fusion_data = playment.SensorFusionData()
+sensor_data = playment.SensorData()
 
 """
 Defining Sensor Meta: This will contain detail about sensor's attributes.
@@ -74,7 +74,7 @@ Defining Sensor Meta: This will contain detail about sensor's attributes.
 Preparing Lidar Sensor
 """
 lidar_sensor = playment.Sensor(_id="lidar", name="lidar", primary_view=True, modality="lidar")
-sensor_fusion_data.add_sensor(lidar_sensor)
+sensor_data.add_sensor(lidar_sensor)
 
 """
 Preparing Camera Sensor Meta for camera_1
@@ -85,7 +85,7 @@ camera_1_intrinsics = playment.Intrinsics(
 )
 camera_1 = playment.Sensor(_id="camera_1", name="camera_1", primary_view=False,
                            modality="camera", intrinsics=camera_1_intrinsics)
-sensor_fusion_data.add_sensor(camera_1)
+sensor_data.add_sensor(camera_1)
 
 """
 Preparing Camera Sensor Meta for camera_2
@@ -96,7 +96,7 @@ camera_2_intrinsics = playment.Intrinsics(
 )
 camera_2 = playment.Sensor(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
 camera_2.add_intrinsics(camera_2_intrinsics)
-sensor_fusion_data.add_sensor(camera_2)
+sensor_data.add_sensor(camera_2)
 
 """
 Preparing frame data
@@ -155,13 +155,12 @@ for i in range(len(lidar_frames)):
     # Preparing a frame with every sensor
     frame = playment.Frame(frame_id=str(i), sensors=[lidar_sensor, camera_1_sensor, camera_2_sensor])
     # Adding the frame in sensor data
-    sensor_fusion_data.add_frame(frame)
+    sensor_data.add_frame(frame)
 
 
 """
 Sensor Data job creation
 """
-sensor_data = playment.SensorData(sensor_fusion_data)
 try:
     job = client.create_job(reference_id="54", tag='sensor_fusion',
                             data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")

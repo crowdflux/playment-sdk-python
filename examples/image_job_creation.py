@@ -16,9 +16,3 @@ try:
                             data=image_data, project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)
-
-
-class JobData:
-    sensor_data = sensor_data or None
-    image_url = image_url or None
-    metadata = extra

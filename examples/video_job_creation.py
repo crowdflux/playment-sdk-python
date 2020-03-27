@@ -12,7 +12,6 @@ frames = [
 """
 Create sensor_fusion_data variable
 """
-# sensor_fusion_data = playment.SensorFusionData()
 sensor_data = playment.SensorData()
 
 
@@ -25,27 +24,22 @@ Defining Sensor Meta: Contain details of sensor
 """
 sensor = playment.Sensor(_id="right", name="right", primary_view=True)
 
+"""
+Adding Sensor Meta
+"""
+sensor_data.add_sensor(sensor=sensor)
 
 """
 Preparing Frame Data
 """
 for i in range(len(frames)):
     # Preparing a sensor with with sensor frame url and sensor_id
-    sensor_frame_object = playment.SensorFrameObject(frames[i], sensor_meta.id)
+    sensor_frame_object = playment.SensorFrameObject(frames[i], sensor.id)
     # Preparing a frame with every sensor
     frame = playment.Frame(str(i), [sensor_frame_object])
     # Adding the frame in sensor data
-    # sensor_fusion_data.add_frame(frame)
     sensor_data.add_frame(frame=frame)
 
-"""
-Adding Sensor Meta
-"""
-# sensor_fusion_data.add_sensor(sensor_meta)
-
-# sensor_data = playment.SensorData(sensor_fusion_data)
-
-sensor_data.add_sensor(sensor=sensor)
 
 """
 Creating a job with sensor data
