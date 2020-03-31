@@ -8,7 +8,7 @@ def readme():
 
 
 setuptools.setup(
-    name="playment-sdk-python",
+    name="playment-connect",
     version="1.0.1",
     description="A Python package to interact with Playment's APIs.",
     long_description=readme(),
