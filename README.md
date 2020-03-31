@@ -16,7 +16,7 @@ Please visit the docs.playment.io to know more about Playment APIs.
 
 ## Usage
 ```
-import playment-connect as playment
+import playment
 client = playment.Client(client_key="your x-client-key")
 ```
 It is a secret key required to call Playment APIs. The secret x-client-key ensures that only you are able to access your projects.
