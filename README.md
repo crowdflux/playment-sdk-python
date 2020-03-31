@@ -1,7 +1,7 @@
 ## Installation
 You don't need this source code unless you want to modify the package. If you just want to use the package, just run:
 
-```pip install --upgrade playment-connect```
+```pip install --upgrade playment```
 
 Install from source with:
 
