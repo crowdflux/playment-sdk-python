@@ -1,6 +1,6 @@
 import playment
 
-client = playment.Client("HRGudEwp0b50Vk2Ao87elc5n6mRnLNe+LXW2PWks6Rg")
+client = playment.Client("x-client-key")
 
 frames = [
     "https://example.com/image_url_1",
@@ -10,13 +10,13 @@ frames = [
 
 
 """
-Create sensor_fusion_data variable
+Create sensor_data variable
 """
 sensor_data = playment.SensorData()
 
 
 """
-Defining Sensor Meta: Contain details of sensor
+Defining Sensor: Contain details of sensor
 :param _id: This is the sensor's id.
 :param name: Name of the sensor.
 :param primary_view: Only one of the sensor can have primary_view as true.
@@ -25,7 +25,7 @@ Defining Sensor Meta: Contain details of sensor
 sensor = playment.Sensor(_id="right", name="right", primary_view=True)
 
 """
-Adding Sensor Meta
+Adding Sensor
 """
 sensor_data.add_sensor(sensor=sensor)
 
@@ -33,9 +33,9 @@ sensor_data.add_sensor(sensor=sensor)
 Preparing Frame Data
 """
 for i in range(len(frames)):
-    # Preparing a sensor with with sensor frame url and sensor_id
+    # Preparing a sensor frame object with with sensor frame url and sensor_id
     sensor_frame_object = playment.SensorFrameObject(frames[i], sensor.id)
-    # Preparing a frame with every sensor
+    # Preparing a frame with every sensor frame object
     frame = playment.Frame(str(i), [sensor_frame_object])
     # Adding the frame in sensor data
     sensor_data.add_frame(frame=frame)
@@ -53,7 +53,7 @@ Creating a job with sensor data
 """
 try:
     job = client.create_job(reference_id="54", tag='sensor_fusion',
-                            data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")
+                            data=sensor_data, project_id="project_id")
 
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)

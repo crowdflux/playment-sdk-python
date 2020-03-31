@@ -1,6 +1,6 @@
 import playment
 
-client = playment.Client("HRGudEwp0b50Vk2Ao87elc5n6mRnLNe+LXW2PWks6Rg")
+client = playment.Client("x-client-key")
 
 """
 Collect sensor_poses for cameras w.r.t lidar in your suitable format
@@ -27,22 +27,22 @@ sensor_poses = {
 Collect frames for every sensor.
 """
 lidar_frames = [
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/8c92df56-d3b4-4513-af4b-806fbae5d0a9.pcd",
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/512c9e92-7873-4257-9f07-d3adec57a82c.pcd"
+    "https://example.com/pcd_url_1",
+    "https://example.com/pcd_url_2"
 ]
 
 camera_1_frames = [
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/b28565f1-5c9a-431a-94de-14d6f2c2f04e",
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/aa84d0f1-df49-490b-8924-4752b811bc44"
+    "https://example.com/image_url_1",
+    "https://example.com/image_url_2"
 ]
 
 camera_2_frames = [
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/d87c35bc-bf58-40c4-958b-925f4f516346",
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/f28cf6a5-a1ff-4fc0-b032-b376b9cc2c7b"
+    "https://example.com/image_url_3",
+    "https://example.com/image_url_4"
 ]
 
 """
-Initialize sensor_fusion_data
+Initialize sensor_data
 """
 sensor_data = playment.SensorData()
 
@@ -77,7 +77,7 @@ lidar_sensor = playment.Sensor(_id="lidar", name="lidar", primary_view=True, mod
 sensor_data.add_sensor(lidar_sensor)
 
 """
-Preparing Camera Sensor Meta for camera_1
+Preparing Camera Sensor for camera_1
 """
 camera_1_intrinsics = playment.Intrinsics(
     cx=1024.56301417, cy=592.004009216, fx=1050.21459961, fy=1051.06384277,
@@ -88,7 +88,7 @@ camera_1 = playment.Sensor(_id="camera_1", name="camera_1", primary_view=False,
 sensor_data.add_sensor(camera_1)
 
 """
-Preparing Camera Sensor Meta for camera_2
+Preparing Camera Sensor for camera_2
 """
 camera_2_intrinsics = playment.Intrinsics(
     cx=1013.0894433, cy=596.331393608, fx=2209.12548828, fy=2209.49682617,
@@ -103,7 +103,7 @@ Preparing frame data
 """
 
 for i in range(len(lidar_frames)):
-    # Preparing a sensor with with sensor frame url and sensor_id
+    # Preparing a sensor frame object with with sensor frame url and sensor_id
     lidar_sensor = playment.SensorFrameObject(data_url=lidar_frames[i], sensor_id="lidar")
     lidar_heading = playment.Heading(
         w=sensor_poses['lidar']['heading']['w'],
@@ -151,8 +151,7 @@ for i in range(len(lidar_frames)):
 
     camera_2_sensor_pose = playment.SensorPose(heading=camera_2_heading, position=camera_2_position)
     camera_2_sensor.add_sensor_pose(camera_2_sensor_pose)
-
-    # Preparing a frame with every sensor
+    # Preparing a frame with every sensor frame object
     frame = playment.Frame(frame_id=str(i), sensors=[lidar_sensor, camera_1_sensor, camera_2_sensor])
     # Adding the frame in sensor data
     sensor_data.add_frame(frame)
@@ -163,7 +162,7 @@ Sensor Data job creation
 """
 try:
     job = client.create_job(reference_id="54", tag='sensor_fusion',
-                            data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")
+                            data=sensor_data, project_id="project_id")
 
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)

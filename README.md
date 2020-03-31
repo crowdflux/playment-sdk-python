@@ -12,22 +12,20 @@ Requirements:
 ``Python 3.5+``
 
 ## Documentation
-Go at Docs.
+Please visit the docs.playment.io to know more about Playment APIs.
 
 ## Usage
 ```
 import playment-connect as playment
-
 client = playment.Client(client_key="your x-client-key")
 ```
+It is a secret key required to call Playment APIs. The secret x-client-key ensures that only you are able to access your projects.
+The x-client-key can be accessed from the settings page of your dashboard.
 
 
 
 #### Get Project Summary
 ```
-"""
-Get project summary
-"""
 try:
     project_summary = client.get_project_summary(project_id=project_id)
 except playment.PlaymentException as e:
@@ -36,10 +34,8 @@ except playment.PlaymentException as e:
 
 
 #### Get Project's Batches Summary
+This will provide all the batches and their summary
 ```
-"""
-Get Project's Batches Summary: This will provide all the batches and their summary
-"""
 try:
     project_batch_summary = client.get_project_batches_summary(project_id=project_id)
 except playment.PlaymentException as e:
@@ -48,12 +44,8 @@ except playment.PlaymentException as e:
 
 
 #### Get Batch Summary
+This will provide you summary of batch with its jobs and viewer links.
 ```
-"""
-Get Batch Summary: This will provide you summary of batch with its jobs and viewer links.
-:param project_id: Should be a string of uuid which you can get from the Playment's Customer Dashboard.
-:param batch_id: Should be a string of uuid which you can get from the Playment's Customer Dashboard.
-"""
 try:
     batch_summary = client.get_batch_summary(project_id=project_id,
                                              batch_id=batch_id)
@@ -63,13 +55,11 @@ except playment.PlaymentException as e:
 
 
 #### Creating a Batch
-```
-"""
-Creating new batch: This will return a batch object with batch_id
+This will return a batch object with batch_id
 :param name: Name for the batch. E.g. John
 :param label: Label for the batch. E.g. Doe
 :param description: Description for the batch. E.g. Alias for unknown.
-"""
+```
 try:
     batch = client.create_batch(name="test_99", label="test_99", description="label",
                                 project_id=project_id)
@@ -84,7 +74,7 @@ except playment.PlaymentException as e:
 """
 Prepare Image Data
 """
-image_url = "http://dfnq1fss3rnqc.cloudfront.net/play/original/b28565f1-5c9a-431a-94de-14d6f2c2f04e"
+image_url = "https://example.com/image_url_1"
 image_data = playment.ImageData(image_url=image_url)
 
 """
@@ -92,7 +82,7 @@ Image Data job creation
 """
 try:
     job = client.create_job(reference_id="55", tag='image',
-                            data=image_data, project_id="1894ef62-19b4-4c57-a3d0-a32162581723")
+                            data=image_data, project_id="project_id")
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)
 
@@ -153,7 +143,7 @@ Creating a job with sensor data
 """
 try:
     job = client.create_job(reference_id="54", tag='sensor_fusion',
-                            data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")
+                            data=sensor_data, project_id="project_id")
 
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)
@@ -187,18 +177,18 @@ sensor_poses = {
 Collect frames for every sensor.
 """
 lidar_frames = [
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/8c92df56-d3b4-4513-af4b-806fbae5d0a9.pcd",
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/512c9e92-7873-4257-9f07-d3adec57a82c.pcd"
+    "https://example.com/pcd_url_1",
+    "https://example.com/pcd_url_2"
 ]
 
 camera_1_frames = [
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/b28565f1-5c9a-431a-94de-14d6f2c2f04e",
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/aa84d0f1-df49-490b-8924-4752b811bc44"
+    "https://example.com/image_url_1",
+    "https://example.com/image_url_2"
 ]
 
 camera_2_frames = [
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/d87c35bc-bf58-40c4-958b-925f4f516346",
-    "http://dfnq1fss3rnqc.cloudfront.net/play/original/f28cf6a5-a1ff-4fc0-b032-b376b9cc2c7b"
+    "https://example.com/image_url_3",
+    "https://example.com/image_url_4"
 ]
 
 """
@@ -323,9 +313,50 @@ Sensor Data job creation
 """
 try:
     job = client.create_job(reference_id="54", tag='sensor_fusion',
-                            data=sensor_data, project_id="21b76a0d-1fb5-474f-a17e-6d7506c00f97")
+                            data=sensor_data, project_id="project_id")
 
 except playment.PlaymentException as e:
     print(e.code, e.message, e.data)
 
+```
+
+#### Creating a Job with metadata
+metadata: You can send any type of data in metadata which can be useful in the task or record of any other data related to that job. 
+
+```
+image_url = "https://example.com/image_url"
+metadata = {
+    "reference_image_1":"https://example.com/reference_image_url_1",
+    "reference_image_2":"https://example.com/reference_image_url_2"
+}
+image_data = playment.ImageData(image_url=image_url, metadata=metadata)
+
+try:
+    job = client.create_job(reference_id="55", tag='image',
+                            data=image_data, project_id="project_id")
+except playment.PlaymentException as e:
+    print(e.code, e.message, e.data)
+
+```
+
+#### Create Jobs with High Priority and associating them with a batch
+```
+image_url = "https://example.com/image_url"
+image_data = playment.ImageData(image_url=image_url)
+
+try:
+    job = client.create_job(reference_id="55", tag='image',
+                            data=image_data, project_id="project_id",
+                            priority_weight=10, batch_id="batch_id")
+except playment.PlaymentException as e:
+    print(e.code, e.message, e.data)
+```
+
+#### Get Job Result
+```
+try:
+    job_result = client.get_job_result(project_id="project_id",
+                                       job_id="job_id")
+except playment.exception.PlaymentException as e:
+    print(e.code, e.message, e.data)
 ```
