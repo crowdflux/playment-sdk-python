@@ -100,13 +100,13 @@ frames = [
 
 
 """
-Create sensor_fusion_data variable
+Create sensor_data variable
 """
 sensor_data = playment.SensorData()
 
 
 """
-Defining Sensor Meta: Contain details of sensor
+Defining Sensor: Contain details of sensor
 :param _id: This is the sensor's id.
 :param name: Name of the sensor.
 :param primary_view: Only one of the sensor can have primary_view as true.
@@ -115,7 +115,7 @@ Defining Sensor Meta: Contain details of sensor
 sensor = playment.Sensor(_id="right", name="right", primary_view=True)
 
 """
-Adding Sensor Meta
+Adding Sensor
 """
 sensor_data.add_sensor(sensor=sensor)
 
@@ -123,7 +123,7 @@ sensor_data.add_sensor(sensor=sensor)
 Preparing Frame Data
 """
 for i in range(len(frames)):
-    # Preparing a sensor with with sensor frame url and sensor_id
+    # Preparing a sensor frame object with sensor frame url and sensor_id
     sensor_frame_object = playment.SensorFrameObject(frames[i], sensor.id)
     # Preparing a frame with every sensor
     frame = playment.Frame(str(i), [sensor_frame_object])
@@ -192,12 +192,12 @@ camera_2_frames = [
 ]
 
 """
-Initialize sensor_fusion_data
+Initialize sensor_data
 """
 sensor_data = playment.SensorData()
 
 """
-Defining Sensor Meta: This will contain detail about sensor's attributes.
+Defining Sensor: This will contain detail about sensor's attributes.
 :param _id: This is the sensor's id.
 :param name: Name of the sensor.
 :param primary_view: Only one of the sensor can have primary_view as true.
@@ -227,7 +227,7 @@ lidar_sensor = playment.Sensor(_id="lidar", name="lidar", primary_view=True, mod
 sensor_data.add_sensor(lidar_sensor)
 
 """
-Preparing Camera Sensor Meta for camera_1
+Preparing Camera Sensor for camera_1
 """
 camera_1_intrinsics = playment.Intrinsics(
     cx=1024.56301417, cy=592.004009216, fx=1050.21459961, fy=1051.06384277,
@@ -238,7 +238,7 @@ camera_1 = playment.Sensor(_id="camera_1", name="camera_1", primary_view=False,
 sensor_data.add_sensor(camera_1)
 
 """
-Preparing Camera Sensor Meta for camera_2
+Preparing Camera Sensor for camera_2
 """
 camera_2_intrinsics = playment.Intrinsics(
     cx=1013.0894433, cy=596.331393608, fx=2209.12548828, fy=2209.49682617,
@@ -253,7 +253,7 @@ Preparing frame data
 """
 
 for i in range(len(lidar_frames)):
-    # Preparing a sensor with with sensor frame url and sensor_id
+    # Preparing a sensor frame object with sensor frame url and sensor_id
     lidar_sensor = playment.SensorFrameObject(data_url=lidar_frames[i], sensor_id="lidar")
     lidar_heading = playment.Heading(
         w=sensor_poses['lidar']['heading']['w'],

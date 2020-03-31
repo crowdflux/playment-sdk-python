@@ -47,7 +47,7 @@ Initialize sensor_data
 sensor_data = playment.SensorData()
 
 """
-Defining Sensor Meta: This will contain detail about sensor's attributes.
+Defining Sensor: This will contain detail about sensor's attributes.
 :param _id: This is the sensor's id.
 :param name: Name of the sensor.
 :param primary_view: Only one of the sensor can have primary_view as true.
