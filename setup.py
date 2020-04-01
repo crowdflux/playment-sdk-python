@@ -9,7 +9,7 @@ def readme():
 
 setuptools.setup(
     name="playment",
-    version="1.0.1",
+    version="1.0.2",
     description="A Python package to interact with Playment's APIs.",
     long_description=readme(),
     long_description_content_type="text/markdown",
