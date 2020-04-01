@@ -20,10 +20,10 @@ setuptools.setup(
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
     ],
     packages=["playment"],
     include_package_data=True,
-    install_requires=["requests", "collections", "json", "abc"],
     keywords=["playment"],
 )
