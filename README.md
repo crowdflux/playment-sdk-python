@@ -244,7 +244,7 @@ camera_2_intrinsics = playment.Intrinsics(
     cx=1013.0894433, cy=596.331393608, fx=2209.12548828, fy=2209.49682617,
     k1=0, k2=0, k3=0, k4=0, p1=0, p2=0, skew=0, scale_factor=1
 )
-camera_2 = playment.Sensor(_id="camera_2", name="camera_2", primary_view=True, modality="camera")
+camera_2 = playment.Sensor(_id="camera_2", name="camera_2", primary_view=False, modality="camera")
 camera_2.add_intrinsics(camera_2_intrinsics)
 sensor_data.add_sensor(camera_2)
 
@@ -357,6 +357,8 @@ except playment.PlaymentException as e:
 try:
     job_result = client.get_job_result(project_id="project_id",
                                        job_id="job_id")
+                                       
+    print(job_result)
 except playment.exception.PlaymentException as e:
     print(e.code, e.message, e.data)
 ```

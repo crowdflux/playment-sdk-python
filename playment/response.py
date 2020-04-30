@@ -6,6 +6,8 @@ def response(res: dict):
 
 
 def response_to_dict(res):
+    if res.status_code == 401:
+        return response({"success": False, "error": {"code": "unauthorized_request", "message":""}})
     return response(res.json())
 
 
