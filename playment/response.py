@@ -1,3 +1,6 @@
+from http import HTTPStatus
+
+
 def response(res: dict):
     success = res['success']
     data = res['data'] if 'data' in res else None
@@ -6,8 +9,8 @@ def response(res: dict):
 
 
 def response_to_dict(res):
-    if res.status_code == 401:
-        return response({"success": False, "error": {"code": "unauthorized_request", "message":""}})
+    if res.status_code == HTTPStatus.UNAUTHORIZED:
+        return response({"success": False, "error": {"code": "unauthorized_request", "message": ""}})
     return response(res.json())
 
 
