@@ -20,6 +20,7 @@ Python 3.5+
 ## Documentation
 Please visit the [Docs](https://docs.playment.io) to know more about Playment APIs.
 
+
 ## Usage
 ```
 import playment
@@ -37,22 +38,26 @@ The x-client-key can be accessed from the settings page of your dashboard.
 
 
 #### Creating a [Batch](https://github.com/crowdflux/playment-sdk-python/blob/master/examples/batch_creation.py)
+* Consist collection of jobs with similar characteristics.
 
 
 #### Creating a Single-Image Based [Job](https://github.com/crowdflux/playment-sdk-python/blob/master/examples/image_job_creation.py).
+* A single image based job can be used for classification/annotation/segmentation.
 
 
 #### Creating a Sensor Based Job with Multiple Images with only camera sensor or multiple image based [Job](https://github.com/crowdflux/playment-sdk-python/blob/master/examples/video_job_creation.py).
+* A multiple image based job can be used for classification/annotation, where all the images of the job are from a single camera and objects are needed to be tracked.
 
 
 #### Creating a Sensor Based Job with Multiple Images/PCDs or Sensor Fusion [Job](https://github.com/crowdflux/playment-sdk-python/blob/master/examples/sensor_job_creation.py).
-This can also be used for only LiDAR based jobs.
+* This can also be used for only LiDAR based jobs.
 
 #### Creating a [Job with metadata](https://github.com/crowdflux/playment-sdk-python/blob/master/examples/job_creation_with_metadata.py).
-metadata: You can send any type of data in metadata which can be useful in the task or record of any other data related to that job. metadata should be a type `dict`.
+* metadata: You can send any type of data in metadata which can be useful in the task or record of any other data related to               that job. metadata should be a type `dict`.
 
 
 #### Get [Job Result](https://github.com/crowdflux/playment-sdk-python/blob/master/examples/job_result.py).
+* Job result will only populate if the job is completed else it will be empty.
 
 
 #### Create Jobs with High Priority and associating them with a batch.
