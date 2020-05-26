@@ -56,7 +56,7 @@ class Client:
         response = JSON2Obj(ProjectSummary(), json.dumps(response.data)).json2obj()
         return response
 
-    def get_project_batches_summary(self, project_id: str)->ProjectBatchSummary:
+    def get_project_batches_summary(self, project_id: str) -> ProjectBatchSummary:
         assert project_id is not None
         url = urls.project_batch_details.format(project_id)
         response = self.requester.get(
@@ -65,10 +65,13 @@ class Client:
         response = JSON2Obj(ProjectBatchSummary(), json.dumps(response.data)).json2obj()
         return response
 
-    def get_batch_summary(self, batch_id: str, project_id: str)->BatchSummary:
+    def get_batch_summary(self, batch_id: str, project_id: str, next_page_token: str = None) -> BatchSummary:
         assert batch_id is not None
         assert project_id is not None
-        url = urls.batch_summary.format(project_id, batch_id)
+        if next_page_token is None:
+            url = urls.batch_summary.format(project_id, batch_id)
+        else:
+            url = urls.batch_summary.format(project_id, batch_id) + "?page_token=" + next_page_token
         response = self.requester.get(
             url=url
         )
