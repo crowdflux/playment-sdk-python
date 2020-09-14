@@ -6,7 +6,7 @@ from playment.base.sensors.frame import Frame
 
 class SensorData(Data):
     def __init__(self, sensor_fusion_data: SensorFusionData = SensorFusionData(), metadata=None):
-        self.sensor_data = sensor_fusion_data
+        self.sensor_data = sensor_fusion_data if sensor_fusion_data == SensorFusionData() else SensorFusionData()
         self.metadata = metadata
 
     def add_sensor(self, sensor: Sensor):
