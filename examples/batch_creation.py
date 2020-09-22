@@ -1,6 +1,6 @@
 import playment
 
-client = playment.Client("x-client-key")
+client = playment.Client("your-x-api-key-here")
 
 try:
     batch = client.create_batch(name="test_99", label="test_99", description="label",
