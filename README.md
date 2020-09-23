@@ -35,7 +35,7 @@ The x-api-key can be accessed from the ***Settings*** -> ***API Keys*** in your 
 * `x-api-key` is supported in latest SDK versions > 1.0.4 
 
 
-#### X-Client-Key usage instructions
+#### X-Client-Key Usage instructions
 Uninstall the sdk (Only required if you upgraded to sdk version > 1.0.4, run ` pip show playment` to check).
 ```
 pip uninstall playment
