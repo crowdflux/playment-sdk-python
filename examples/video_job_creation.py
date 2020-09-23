@@ -1,6 +1,6 @@
 import playment
 
-client = playment.Client("x-client-key")
+client = playment.Client("your-x-api-key-here")
 
 frames = [
     "https://example.com/image_url_1",
