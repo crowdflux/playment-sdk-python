@@ -1,6 +1,6 @@
 import playment
 
-client = playment.Client("your-x-api-key-here")
+client = playment.Client("x-client-key")
 
 """
 Get project summary

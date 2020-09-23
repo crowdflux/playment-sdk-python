@@ -1,6 +1,6 @@
 import playment
 
-client = playment.Client("your-x-api-key-here")
+client = playment.Client("x-client-key")
 
 """
 Collect sensor_poses for cameras w.r.t lidar in your suitable format

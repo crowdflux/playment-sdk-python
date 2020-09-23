@@ -14,10 +14,10 @@ import json
 
 
 class Client:
-    def __init__(self, api_key: str):
-        assert api_key is not None and type(api_key) is str
-        self.api_key = api_key
-        self.requester = Requests(api_key)
+    def __init__(self, client_key: str):
+        assert client_key is not None and type(client_key) is str
+        self.client_key = client_key
+        self.requester = Requests(client_key)
 
     def create_batch(self, name, label, description, project_id: str) -> Batch:
         assert name is not None

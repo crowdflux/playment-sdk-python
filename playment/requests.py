@@ -6,7 +6,7 @@ import time
 
 
 class Head:
-    api_token_header_key = "x-api-key"
+    playment_key = "x-client-key"
 
 
 def is_retryable(code: int) -> bool:
@@ -42,8 +42,8 @@ def retry(url: str, headers: dict, method: str, data=None, limit: int = 3, count
 
 
 class Requests:
-    def __init__(self, api_auth_token: str):
-        self.headers = dict(zip([Head.api_token_header_key], [api_auth_token]))
+    def __init__(self, value: str):
+        self.headers = dict(zip([Head.playment_key], [value]))
 
     def post(self, url: str, data=None, limit: int = 3, headers: dict = None) -> PlaymentResponse:
         if headers is None:
