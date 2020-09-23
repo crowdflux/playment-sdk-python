@@ -45,8 +45,9 @@ Install the latest version supporting `x-client-key`
 pip install -Iv playment==1.0.4
 ```
 
-Pass your `x-client-key` as shown below, and use as demonstrated in examples. 
+Pass your `x-client-key` as shown below, and use as demonstrated in further examples. 
 ```
+import playment
 client = playment.Client(client_key="your-x-client-key-here")
 ```
 Please reach out to [dev@playment.in](mailto:dev.playment.io) if you face any issues.
