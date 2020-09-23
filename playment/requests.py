@@ -6,7 +6,6 @@ import time
 
 
 class Head:
-    playment_key = "x-client-key"
     api_token_header_key = "x-api-key"
 
 
