@@ -30,10 +30,11 @@ It is a secret key required to call Playment APIs. The secret x-api-key ensures 
 The x-api-key can be accessed from the settings page of your dashboard.
 
 ## Using x-client-key [Deprecated]
-* Using `x-client-key` is only supported till 30th October 2020, please use updated sdk and `x-api-key` to use Playment APIs after aforementioned date.
-Please reach out to [dev@playment.in](mailto:dev.playment.io) if you face any issues.
-* `x-api-key` is only supported for versions > 1.0.4 
+* Using `x-client-key` is only supported till 30th October 2020, please use updated sdk and `x-api-key` to use Playment APIs after the aforementioned date.
+* `x-api-key` is supported in latest SDK versions > 1.0.4 , kindly generate one from ***Settings*** -> ***API Keys*** in your Playment Dashboard.
 
+
+#### X-Client-Key Usage instructions
 Uninstall the sdk (Only required if you upgraded to sdk version > 1.0.4)
 ```
 pip uninstall playment
@@ -44,11 +45,11 @@ Install the latest version supporting `x-client-key`
 pip install -Iv playment==1.0.4
 ```
 
-Pass your `x-client-key` in the aforementioned method like this.
+Pass your `x-client-key` as shown below, and use as demonstrated in examples. 
 ```
 client = playment.Client(client_key="your-x-client-key-here")
 ```
-
+Please reach out to [dev@playment.in](mailto:dev.playment.io) if you face any issues.
 #### Usage Instructions
 
 
