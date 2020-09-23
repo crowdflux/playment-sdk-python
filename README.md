@@ -27,7 +27,7 @@ Please visit the [Docs](https://docs.playment.io) to know more about Playment AP
 
 
 #### X-Client-Key Usage instructions
-Uninstall the sdk (Only required if you upgraded to sdk version > 1.0.4)
+Uninstall the sdk (Only required if you upgraded to sdk version > 1.0.4, run ` pip show playment` to check).
 ```
 pip uninstall playment
 ``` 
