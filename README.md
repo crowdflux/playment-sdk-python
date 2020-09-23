@@ -20,18 +20,9 @@ Python 3.5+
 ## Documentation
 Please visit the [Docs](https://docs.playment.io) to know more about Playment APIs.
 
-
-## Usage
-```
-import playment
-client = playment.Client(api_key="your-x-api-key-here")
-```
-It is a secret key required to call Playment APIs. The secret x-api-key ensures that only you are able to access your projects.
-The x-api-key can be accessed from the settings page of your dashboard.
-
 ## Using x-client-key [Deprecated]
 * Using `x-client-key` is only supported till 30th October 2020, please use updated sdk and `x-api-key` to use Playment APIs after the aforementioned date.
-* `x-api-key` is supported in latest SDK versions > 1.0.4 , kindly generate one from ***Settings*** -> ***API Keys*** in your Playment Dashboard.
+* `x-api-key` is supported in latest SDK versions > 1.0.4 
 
 
 #### X-Client-Key Usage instructions
@@ -51,6 +42,16 @@ import playment
 client = playment.Client(client_key="your-x-client-key-here")
 ```
 Please reach out to [dev@playment.in](mailto:dev.playment.io) if you face any issues.
+
+
+## Usage
+```
+import playment
+client = playment.Client(api_key="your-x-api-key-here")
+```
+It is a secret key required to call Playment APIs. The secret x-api-key ensures that only you are able to access your projects.
+The x-api-key can be accessed from the ***Settings*** -> ***API Keys*** in your Playment Dashboard.
+
 #### Usage Instructions
 
 
