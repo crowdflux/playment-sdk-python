@@ -11,7 +11,7 @@ def json2obj(data):
 
 
 data = {
-    "job_creation": "https://api.playment.in/projectsvc/projects/{}/jobs",
+    "job_creation": "https://api.playment.io/projectsvc/projects/{}/jobs",
     "batch_creation": "v1/project/{}/batch",
     "project_overview": "v0/projects/{}/stats",
     "project_details": "v0/projects/{}/details",
